@@ -9,7 +9,7 @@ export class ToothtypeService {
   apiUrl = "https://localhost:44365/api/ToothType/"
   constructor(private httpClient: HttpClient) { }
 
-  getTeeth(){
+  getTypes(){
     return this.httpClient.get<ToothType[]>(this.apiUrl);
   }
 

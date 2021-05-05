@@ -1,1 +1,124 @@
-<p>cases works!</p>
+<div class="p-grid">
+    <div class="p-col">
+        <div class="p-grid">
+            <div class="p-col">
+                <button pButton type="button" label="New Case" (click)="createCase()"></button>
+            </div>
+        </div>
+        <div class="p-grid">
+            <div class="p-col">
+                <p-card header="header">
+                    <p-table [value]="cases">
+                        <ng-template pTemplate="Cases">
+                            <tr>
+                                <th pSortableColumn="CaseId">Id <p-sortIcon field="code"></p-sortIcon></th>
+                                <th pSortableColumn="Doctor">Doctor <p-sortIcon field="name"></p-sortIcon></th>
+                                <th pSortableColumn="Received">Received <p-sortIcon field="category"></p-sortIcon></th>
+                                <th pSortableColumn="Due">Due <p-sortIcon field="quantity"></p-sortIcon></th>
+                                <th pSortableColumn="Price">Price <p-sortIcon field="price"></p-sortIcon></th>
+                                <th pSortableColumn="Remake">Remake <p-sortIcon field="price"></p-sortIcon></th>
+                                <th pSortableColumn="Rush">Rush <p-sortIcon field="price"></p-sortIcon></th>
+                                <th></th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-c>
+                            <tr>
+                                <td>{{c.caseId}}</td>
+                                <td>{{c.doctorId}}</td>
+                                <td>{{c.receiveDate}}</td>
+                                <td>{{c.dueDate}}</td>
+                                <td>{{c.price | currency: 'USD'}}</td>
+                                <td>{{c.remake}}</td>
+                                <td>{{c.rush}}</td>
+                                <td></td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </p-card>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- CREATE -->
+<p-dialog header="Create Case" [(visible)]="displayCreate" (onHide)="cancelCreate()" [style]="{'width': '50vw'}">
+    <form [formGroup]="caseForm" (ngSubmit)="saveNewCase()">
+        <div class="p-fluid">
+            <div class="p-field">
+                <label for="DoctorId" class="p-mr-2">Select Doctor</label>
+                <p-dropdown [options]="doctors" optionLabel="LastName" optionValue="DoctorId"></p-dropdown>
+            </div>
+            <div class="p-field">
+                <label for="ReceiveDate" class="p-mr-2">Receive Date</label>
+                <input id="ReceiveDate" type="Text" pInputText formControlName="ReceiveDate" [style]="{'width': '100%'}">
+            </div>
+            <div class="p-field">
+                <label for="DueDate" class="p-mr-2">Due Date</label>
+                <input id="DueDate" type="Text" pInputText formControlName="DueDate" [style]="{'width': '100%'}">
+            </div>
+            <div class="p-field">
+                <label for="Price" class="p-mr-2">Price</label>
+                <input id="Price" type="Text" pInputText formControlName="Price" [style]="{'width': '100%'}">
+            </div>
+            <div class="p-field">
+                <label for="Remake" class="p-mr-2">Remake</label>
+                <input id="Remake" type="Text" pInputText formControlName="Remake" [style]="{'width': '100%'}">
+            </div>
+            <div class="p-field">
+                <label for="Rush" class="p-mr-2">Remake</label>
+                <input id="Rush" type="Text" pInputText formControlName="Rush" [style]="{'width': '100%'}">
+            </div>
+        </div>
+        <div class="p-d-flex p-jc-end">
+            <div class="p-mr-2">
+                <button pButton type="button" label="Cancel" class="p-mr-2-secondary" (click)="cancelCreate()"></button>
+            </div>
+            <div class="p-mr-2">
+                <button pButton type="button" label="Save" class="p-mr-2-secondary" (click)="saveNewCase()"></button>
+            </div>
+        </div>
+    </form>
+</p-dialog>
+
+<!-- EDIT -->
+<p-dialog header="Edit Case" [(visible)]="displayEdit" (onHide)="cancelEdit()" [style]="{'width': '50vw'}">
+    <form [formGroup]="caseForm" (ngSubmit)="updateCase()">
+        <div class="p-fluid">
+            <div class="p-field">
+                <label for="ReceiveDate" class="p-mr-2">ReceiveDate</label>
+                <input id="ReceiveDate" type="Text" pInputText formControlName="ReceiveDate" [style]="{'width': '100%'}">
+            </div>
+            <div class="p-field">
+                <label for="DueDate" class="p-mr-2">Last Name</label>
+                <input id="DueDate" type="Text" pInputText formControlName="DueDate" [style]="{'width': '100%'}">
+            </div>
+            <div class="p-field">
+                <label for="Price" class="p-mr-2">Price</label>
+                <input id="Price" type="Text" pInputText formControlName="Price" [style]="{'width': '100%'}">
+            </div>
+            <div class="p-field">
+                <label for="Remake" class="p-mr-2">Remake</label>
+                <input id="Remake" type="Text" pInputText formControlName="Remake" [style]="{'width': '100%'}">
+            </div>
+            <div class="p-field">
+                <label for="Rush" class="p-mr-2">Remake</label>
+                <input id="Rush" type="Text" pInputText formControlName="Rush" [style]="{'width': '100%'}">
+            </div>
+        </div>
+        <div class="p-d-flex p-jc-end">
+            <div class="p-mr-2">
+                <button pButton type="button" label="Cancel" class="p-mr-2-secondary" (click)="cancelEdit()"></button>
+            </div>
+            <div class="p-mr-2">
+                <button pButton type="button" label="Save" class="p-mr-2-secondary" (click)="updateCase()"></button>
+            </div>
+        </div>
+    </form>
+</p-dialog>
+
+<p-confirmDialog #cd header="Confirmation" icon="pi pi-exclamation-triangle">
+    <p-footer>
+        <button type="button" pButton icon="pi pi-times" label="No" (click)="cd.reject()"></button>
+        <button type="button" pButton class="p-button-danger" icon="pi pi-check" label="Yes" (click)="cd.accept()"></button>
+    </p-footer>
+</p-confirmDialog>

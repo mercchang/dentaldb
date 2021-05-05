@@ -2,12 +2,17 @@ import { Case } from "./case.model";
 import { ToothType } from "./tooth-type.model";
 
 export class Tooth{
-    toothId: number;
-    caseId: number;
-    toothTypeId: number;
-    toothNumber: number;
-    shade: string;
+    ToothId: number;
+    CaseId: number;
+    ToothTypeId: number;
+    ToothNumber: number;
+    Shade: string;
 
-    case: Case;
-    toothType: ToothType;
+    Case: Case;
+    ToothType: ToothType;
+
+    constructor(ToothNumber, Shade){
+        this.ToothNumber = ToothNumber;
+        this.Shade = Shade;
+    }
 }

@@ -2,12 +2,19 @@ import { Case } from "./case.model";
 import { Patient } from "./patient.model";
 
 export class Doctor{
-    doctorId: number;
-    firstName: string;
-    lastName: string;
-    address: string;
-    phone: string;
+    DoctorId: number;
+    FirstName: string;
+    LastName: string;
+    Address: string;
+    Phone: string;
 
-    patients: Patient[];
-    cases: Case[];
+    Patients: Patient[];
+    Cases: Case[];
+
+    constructor(FirstName, LastName, Address, Phone){
+        this.FirstName = FirstName;
+        this.LastName = LastName;
+        this.Address = Address;
+        this.Phone = Phone;
+    }
 }

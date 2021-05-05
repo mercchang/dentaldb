@@ -2,14 +2,25 @@ import { Doctor } from "./doctor.model";
 import { Patient } from "./patient.model";
 
 export class Case{
-    caseId: number;
-    doctorId: number;
-    createdDate: string;
-    receiveDate: string;
-    dueDate: string;
-    price: string;
-    remake: boolean;
+    CaseId: number;
+    DoctorId: number;
+    CreatedDate: string;
+    ReceiveDate: string;
+    DueDate: string;
+    Price: string;
+    Remake: boolean;
+    Rush: boolean;
 
-    doctor: Doctor;
-    patient: Patient;
+    Doctor: Doctor;
+    Patient: Patient;
+
+    constructor(DoctorId, CreatedDate, ReceiveDate, DueDate, Price, Remake, Rush){
+        this.DoctorId = DoctorId;
+        this.CreatedDate = CreatedDate;
+        this.ReceiveDate = ReceiveDate;
+        this.DueDate = DueDate;
+        this.Price = Price;
+        this.Remake = Remake;
+        this.Rush = Rush;
+    }
 }

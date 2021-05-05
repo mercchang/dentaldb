@@ -1,1 +1,95 @@
-<p>tooth-types works!</p>
+<div class="p-grid">
+    <div class="p-col">
+        <div>
+            <button pButton type="button" label="New Type" (click)="createType()"></button>
+        </div>
+        <p-card header="Tooth Types">
+            <p-table [value]="toothTypes">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>Id</th>
+                        <th>Name</th>
+                        <th>Price</th>
+                        <th>Description</th>
+                        <th></th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-type>
+                    <tr>
+                        <td>{{type.ToothTypeId}}</td>
+                        <td>{{type.Name}}</td>
+                        <td>{{type.Price | currency: 'USD'}}</td>
+                        <td>{{type.Description}}</td>
+                        <td>
+                            <button pButton type="button" class="p-button-warning" icon="pi pi-pencil" (click)="editType(type)"></button>
+                            <button pButton type="button" class="p-button-danger" icon="pi pi-times" (click)="deleteType(type.ToothTypeId)"></button>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </p-card>
+    </div>
+</div>
+
+<!-- CREATE -->
+<p-dialog header="Create Type" [(visible)]="displayCreate" (onHide)="cancelCreate()" [style]="{'width': '50vw'}">
+    <form [formGroup]="toothTypeForm" (ngSubmit)="saveNewType()">
+        <div class="p-fluid">
+            <div class="p-field">
+                <label for="Name" class="p-mr-2">Name</label>
+                <input id="Name" type="Text" pInputText formControlName="Name" [style]="{'width': '100%'}">
+            </div>
+            <div class="p-field">
+                <label for="Price" class="p-mr-2">Price</label>
+                <input id="Price" type="number" pInputText formControlName="Price" [style]="{'width': '100%'}">
+            </div>
+            <div class="p-field">
+                <label for="Description" class="p-mr-2">Description</label>
+                <input id="Description" type="Text" pInputText formControlName="Description" [style]="{'width': '100%'}">
+            </div>
+        </div>
+        <div class="p-d-flex p-jc-end">
+            <div class="p-mr-2">
+                <button pButton type="button" label="Cancel" class="p-mr-2-secondary" (click)="cancelCreate()"></button>
+            </div>
+            <div class="p-mr-2">
+                <button pButton type="button" label="Save" class="p-mr-2-secondary" (click)="saveNewType()"></button>
+            </div>
+        </div>
+    </form>
+</p-dialog>
+
+<!-- EDIT -->
+<p-dialog header="Edit Type" [(visible)]="displayEdit" (onHide)="cancelEdit()" [style]="{'width': '50vw'}">
+    <form [formGroup]="toothTypeForm" (ngSubmit)="updateType()">
+        <div class="p-fluid">
+            <div class="p-field">
+                <label for="Name" class="p-mr-2">Name</label>
+                <input id="Name" type="Text" pInputText formControlName="Name" [style]="{'width': '100%'}">
+            </div>
+            <div class="p-field">
+                <label for="Price" class="p-mr-2">Price</label>
+                <input id="Price" type="number" pInputText formControlName="Price" [style]="{'width': '100%'}">
+            </div>
+            <div class="p-field">
+                <label for="Description" class="p-mr-2">Description</label>
+                <input id="Description" type="Text" pInputText formControlName="Description" [style]="{'width': '100%'}">
+            </div>
+        </div>
+        <div class="p-d-flex p-jc-end">
+            <div class="p-mr-2">
+                <button pButton type="button" label="Cancel" class="p-mr-2-secondary" (click)="cancelEdit()"></button>
+            </div>
+            <div class="p-mr-2">
+                <button pButton type="button" label="Save" class="p-mr-2-secondary" (click)="updateType()"></button>
+            </div>
+        </div>
+    </form>
+</p-dialog>
+
+<p-confirmDialog #cd header="Confirmation" icon="pi pi-exclamation-triangle">
+    <p-footer>
+        <button type="button" pButton icon="pi pi-times" label="No" (click)="cd.reject()"></button>
+        <button type="button" pButton class="p-button-danger" icon="pi pi-check" label="Yes" (click)="cd.accept()"></button>
+    </p-footer>
+</p-confirmDialog>
