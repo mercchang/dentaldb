@@ -1,5 +1,6 @@
 import { Doctor } from "./doctor.model";
 import { Patient } from "./patient.model";
+import { Tooth } from "./tooth.model";
 
 export class Case{
     CaseId: number;
@@ -13,6 +14,7 @@ export class Case{
 
     Doctor: Doctor;
     Patient: Patient;
+    Teeth: Tooth;
 
     constructor(DoctorId, CreatedDate, ReceiveDate, DueDate, Price, Remake, Rush){
         this.DoctorId = DoctorId;

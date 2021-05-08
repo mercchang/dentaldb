@@ -43,40 +43,79 @@
 <!-- CREATE -->
 <p-dialog header="Create Case" [(visible)]="displayCreate" (onHide)="cancelCreate()" [style]="{'width': '50vw'}">
     <form [formGroup]="caseForm" (ngSubmit)="saveNewCase()">
-        <div class="p-fluid">
-            <div class="p-field">
-                <label for="DoctorId" class="p-mr-2">Select Doctor</label>
-                <p-dropdown [options]="doctors" optionLabel="LastName" optionValue="DoctorId"></p-dropdown>
-            </div>
-            <div class="p-field">
-                <label for="ReceiveDate" class="p-mr-2">Receive Date</label>
-                <input id="ReceiveDate" type="Text" pInputText formControlName="ReceiveDate" [style]="{'width': '100%'}">
-            </div>
-            <div class="p-field">
-                <label for="DueDate" class="p-mr-2">Due Date</label>
-                <input id="DueDate" type="Text" pInputText formControlName="DueDate" [style]="{'width': '100%'}">
-            </div>
-            <div class="p-field">
-                <label for="Price" class="p-mr-2">Price</label>
-                <input id="Price" type="Text" pInputText formControlName="Price" [style]="{'width': '100%'}">
-            </div>
-            <div class="p-field">
-                <label for="Remake" class="p-mr-2">Remake</label>
-                <input id="Remake" type="Text" pInputText formControlName="Remake" [style]="{'width': '100%'}">
-            </div>
-            <div class="p-field">
-                <label for="Rush" class="p-mr-2">Remake</label>
-                <input id="Rush" type="Text" pInputText formControlName="Rush" [style]="{'width': '100%'}">
-            </div>
-        </div>
-        <div class="p-d-flex p-jc-end">
-            <div class="p-mr-2">
-                <button pButton type="button" label="Cancel" class="p-mr-2-secondary" (click)="cancelCreate()"></button>
-            </div>
-            <div class="p-mr-2">
-                <button pButton type="button" label="Save" class="p-mr-2-secondary" (click)="saveNewCase()"></button>
-            </div>
-        </div>
+        <form [formGroup]="patientForm" (ngSubmit)="saveNewCase()">
+            <form [formGroup]="toothForm" (ngSubmit)="saveNewCase()">
+                <div class="p-fluid">
+                    <div class="p-field">
+                        <label for="DoctorId" class="p-mr-2">Select Doctor</label>
+                        <p-dropdown [options]="doctors" optionLabel="LastName" optionValue="DoctorId"></p-dropdown>
+                    </div>
+                    <div class="p-field">
+                        <label for="ReceiveDate" class="p-mr-2">Receive Date</label>
+                        <input id="ReceiveDate" type="Text" pInputText formControlName="ReceiveDate" [style]="{'width': '100%'}">
+                    </div>
+                    <div class="p-field">
+                        <label for="DueDate" class="p-mr-2">Due Date</label>
+                        <input id="DueDate" type="Text" pInputText formControlName="DueDate" [style]="{'width': '100%'}">
+                    </div>
+                    <div class="p-field">
+                        <label for="Price" class="p-mr-2">Price</label>
+                        <input id="Price" type="Text" pInputText formControlName="Price" [style]="{'width': '100%'}">
+                    </div>
+                    <div class="p-field">
+                        <label for="Remake" class="p-mr-2">Remake</label>
+                        <input id="Remake" type="Text" pInputText formControlName="Remake" [style]="{'width': '100%'}">
+                    </div>
+                    <div class="p-field">
+                        <label for="Rush" class="p-mr-2">Rush</label>
+                        <input id="Rush" type="Text" pInputText formControlName="Rush" [style]="{'width': '100%'}">
+                    </div>
+                </div>
+                <div class="p-fluid">
+                    <div class="p-field">
+                        <label for="FirstName" class="p-mr-2">First Name</label>
+                        <input id="FirstName" type="Text" pInputText formControlName="FirstName" [style]="{'width': '100%'}">
+                    </div>
+                    <div class="p-field">
+                        <label for="LastName" class="p-mr-2">Last Name</label>
+                        <input id="LastName" type="Text" pInputText formControlName="LastName" [style]="{'width': '100%'}">
+                    </div>
+                    <div class="p-field">
+                        <label for="Phone" class="p-mr-2">Phone</label>
+                        <input id="Phone" type="Text" pInputText formControlName="Phone" [style]="{'width': '100%'}">
+                    </div>
+                    <div class="p-field">
+                        <label for="Address" class="p-mr-2">Address</label>
+                        <input id="Address" type="Text" pInputText formControlName="Address" [style]="{'width': '100%'}">
+                    </div>
+                </div>
+                <div class="p-fluid">
+                    <div class="p-field">
+                        <label for="ToothType" class="p-mr-2">Tooth Type</label>
+                        <p-dropdown [options]="types" optionLabel="Tooth Type" optionValue="Name"></p-dropdown>
+                    </div>
+                    <div class="p-field">
+                        <label for="ToothNumber" class="p-mr-2">Tooth Number</label>
+                        <input id="ToothNumber" type="Text" pInputText formControlName="ToothNumber" [style]="{'width': '100%'}">
+                    </div>
+                    <div class="p-field">
+                        <label for="Shade" class="p-mr-2">Shade</label>
+                        <input id="Shade" type="Text" pInputText formControlName="Shade" [style]="{'width': '100%'}">
+                    </div>
+                    <div class="p-field">
+                        Price = $123
+                    </div>
+                </div>
+                <div class="p-d-flex p-jc-end">
+                    <div class="p-mr-2">
+                        <button pButton type="button" label="Cancel" class="p-mr-2-secondary" (click)="cancelCreate()"></button>
+                    </div>
+                    <div class="p-mr-2">
+                        <button pButton type="button" label="Save" class="p-mr-2-secondary" (click)="saveNewCase()"></button>
+                    </div>
+                </div>
+            </form>
+        </form>
     </form>
 </p-dialog>
 

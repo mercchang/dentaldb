@@ -3,6 +3,9 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ConfirmationService } from 'primeng/api';
 import { Case } from 'src/app/core/models/case.model';
 import { Doctor } from 'src/app/core/models/doctor.model';
+import { Patient } from 'src/app/core/models/patient.model';
+import { ToothType } from 'src/app/core/models/tooth-type.model';
+import { Tooth } from 'src/app/core/models/tooth.model';
 import { CaseService } from 'src/app/core/services/case.service';
 import { DoctorService } from 'src/app/core/services/doctor.service';
 
@@ -16,9 +19,11 @@ export class CasesComponent implements OnInit {
   displayEdit: boolean = false;
   cases: Case[];
   doctors: Doctor[];
+  types: ToothType[];
   selectedDoctor: Doctor;
   caseForm: FormGroup;
   patientForm: FormGroup;
+  toothForm: FormGroup;
 
   constructor(private caseService: CaseService, private docService:DoctorService, private confirmationService: ConfirmationService) { }
 
@@ -44,9 +49,13 @@ export class CasesComponent implements OnInit {
       Phone: new FormControl(null, [Validators.required]),
       Address: new FormControl(null, [Validators.required])
     })
+    this.toothForm = new FormGroup({
+      ToothNumber: new FormControl(null, [Validators.required]),
+      Shade: new FormControl(null, [Validators.required])
+    })
   }
 
-  editFormGroup(id, doctorId, createdDate, receiveDate, dueDate, price, remake, rush, firstName, lastName, phone, address){
+  editFormGroup(id, doctorId, createdDate, receiveDate, dueDate, price, remake, rush, firstName, lastName, phone, address, toothNum, shade){
     this.displayEdit = true;
     this.caseForm = new FormGroup({
       CaseId: new FormControl(id),
@@ -63,6 +72,10 @@ export class CasesComponent implements OnInit {
       LastName: new FormControl(lastName, [Validators.required]),
       Phone: new FormControl(phone, [Validators.required]),
       Address: new FormControl(address, [Validators.required])
+    })
+    this.toothForm = new FormGroup({
+      ToothNumber: new FormControl(toothNum, [Validators.required]),
+      Shade: new FormControl(shade, [Validators.required])
     })
   }
 
@@ -94,9 +107,9 @@ export class CasesComponent implements OnInit {
     this.displayCreate = true;
   }
 
-  editCase(c:Case){
+  editCase(c:Case, t:Tooth){
     this.editFormGroup(c.CaseId, c.CreatedDate, c.ReceiveDate, c.DueDate, c.Price, c.Remake, c.Rush, 
-      c.Doctor.DoctorId, c.Patient.FirstName, c.Patient.LastName, c.Patient.Phone, c.Patient.Address);
+      c.Doctor.DoctorId, c.Patient.FirstName, c.Patient.LastName, c.Patient.Phone, c.Patient.Address, c.Teeth.ToothNumber, c.Teeth.Shade);
     this.displayEdit = true;
   }
 
