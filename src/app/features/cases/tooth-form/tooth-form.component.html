@@ -1,0 +1,26 @@
+<div class="p-grid">
+    <div class="p-col">
+        <div class="p-fluid">
+            <div class="p-field">
+                <label for="ToothType" class="p-mr-2">Tooth Type</label>
+                <p-dropdown [options]="types" optionLabel="Tooth Type" optionValue="Name"></p-dropdown>
+            </div>
+            <div class="p-field">
+                <label for="ToothNumber" class="p-mr-2">Tooth Number</label>
+                <input id="ToothNumber" type="Text" pInputText formControlName="ToothNumber" [style]="{'width': '100%'}">
+            </div>
+        </div>
+    </div>
+    <div class="p-col">
+        <div class="p-fluid">
+            <div class="p-field">
+                <label for="Shade" class="p-mr-2">Shade</label>
+                <input id="Shade" type="Text" pInputText formControlName="Shade" [style]="{'width': '100%'}">
+            </div>
+            <div class="p-field">
+                <label for="Price" class="p-mr-2">Price</label>
+                <p>toothType.Price</p>
+            </div>
+        </div>
+    </div>
+</div>

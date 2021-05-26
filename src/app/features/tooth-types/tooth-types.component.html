@@ -1,8 +1,12 @@
 <div class="p-grid">
     <div class="p-col">
-        <div>
-            <button pButton type="button" label="New Type" (click)="createType()"></button>
-        </div>
+        <button pButton type="button" label="New Type" (click)="createType()"></button>
+    </div>
+</div>
+
+<div class="p-grid">
+    <div class="p-col">
+
         <p-card header="Tooth Types">
             <p-table [value]="toothTypes">
                 <ng-template pTemplate="header">

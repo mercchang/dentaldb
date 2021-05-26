@@ -16,9 +16,8 @@ export class Case{
     Patient: Patient;
     Teeth: Tooth;
 
-    constructor(DoctorId, CreatedDate, ReceiveDate, DueDate, Price, Remake, Rush){
+    constructor(DoctorId, ReceiveDate, DueDate, Price, Remake, Rush){
         this.DoctorId = DoctorId;
-        this.CreatedDate = CreatedDate;
         this.ReceiveDate = ReceiveDate;
         this.DueDate = DueDate;
         this.Price = Price;

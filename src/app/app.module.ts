@@ -15,6 +15,8 @@ import { SideMenuComponent } from './layout/side-menu/side-menu.component';
 import { PatientsComponent } from './features/patients/patients.component';
 import { ContentComponent } from './features/content/content.component';
 import { ConfirmationService } from 'primeng/api';
+import { PatientFormComponent } from './features/cases/patient-form/patient-form.component';
+import { ToothFormComponent } from './features/cases/tooth-form/tooth-form.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +28,8 @@ import { ConfirmationService } from 'primeng/api';
     SideMenuComponent,
     PatientsComponent,
     ContentComponent,
+    PatientFormComponent,
+    ToothFormComponent,
   ],
   imports: [
     BrowserModule,

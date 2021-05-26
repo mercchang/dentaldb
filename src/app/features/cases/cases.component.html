@@ -7,7 +7,7 @@
         </div>
         <div class="p-grid">
             <div class="p-col">
-                <p-card header="header">
+                <p-card header="Cases">
                     <p-table [value]="cases">
                         <ng-template pTemplate="Cases">
                             <tr>
@@ -41,8 +41,8 @@
 </div>
 
 <!-- CREATE -->
-<p-dialog header="Create Case" [(visible)]="displayCreate" (onHide)="cancelCreate()" [style]="{'width': '50vw'}">
-    <form [formGroup]="caseForm" (ngSubmit)="saveNewCase()">
+<p-dialog header="Create New Case" [(visible)]="displayCreate" (onHide)="cancelCreate()" [style]="{'width': '50vw'}">
+    <!-- <form [formGroup]="caseForm" (ngSubmit)="saveNewCase()">
         <form [formGroup]="patientForm" (ngSubmit)="saveNewCase()">
             <form [formGroup]="toothForm" (ngSubmit)="saveNewCase()">
                 <div class="p-fluid">
@@ -52,11 +52,11 @@
                     </div>
                     <div class="p-field">
                         <label for="ReceiveDate" class="p-mr-2">Receive Date</label>
-                        <input id="ReceiveDate" type="Text" pInputText formControlName="ReceiveDate" [style]="{'width': '100%'}">
+                        <p-calendar id="ReceiveDate" formControlName="ReceiveDate"></p-calendar>
                     </div>
                     <div class="p-field">
                         <label for="DueDate" class="p-mr-2">Due Date</label>
-                        <input id="DueDate" type="Text" pInputText formControlName="DueDate" [style]="{'width': '100%'}">
+                        <p-calendar id="DueDate" formControlName="DueDate"></p-calendar>
                     </div>
                     <div class="p-field">
                         <label for="Price" class="p-mr-2">Price</label>
@@ -116,7 +116,70 @@
                 </div>
             </form>
         </form>
+    </form> -->
+
+    <form [formGroup]="caseForm" (ngSubmit)="saveNewCase()">
+        <div class="p-grid">
+            <div class="p-col">
+                <div class="p-fluid">
+                    <div class="p-field">
+                        <label for="DoctorId" class="p-mr-2">Select Doctor</label>
+                        <p-dropdown [options]="doctors" optionLabel="LastName" optionValue="DoctorId"></p-dropdown>
+                    </div>
+                    <div class="p-field">
+                        <label for="ReceiveDate" class="p-mr-2">Receive Date</label>
+                        <p-calendar id="ReceiveDate" formControlName="ReceiveDate"></p-calendar>
+                    </div>
+                    <div class="p-field">
+                        <label for="DueDate" class="p-mr-2">Due Date</label>
+                        <p-calendar id="DueDate" formControlName="DueDate"></p-calendar>
+                    </div>
+                </div>
+            </div>
+            <div class="p-col">
+                <div class="p-fluid">
+                    <div class="p-field">
+                        <label for="Price" class="p-mr-2">Price</label>
+                        <p>toothType.Price</p>
+                    </div>
+                    <div class="p-field">
+                        <label for="Remake" class="p-mr-2">Remake</label>
+                        <p-checkbox formControlName="Remake" binary="true" inputId="binary"></p-checkbox>
+                    </div>
+                    <div class="p-field">
+                        <label for="Rush" class="p-mr-2">Rush</label>
+                        <p-checkbox formControlName="Rush" binary="true" inputId="binary"></p-checkbox>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <p-divider align="left">
+            <div class="p-d-inline-flex p-ai-center">
+                <i class="pi pi-user p-mr-2"></i>
+                <b>Patient</b>
+            </div>
+        </p-divider>
+        <app-patient-form></app-patient-form>
+        <p-divider align="left">
+            <div class="p-d-inline-flex p-ai-center">
+                <i class="pi pi-book p-mr-2"></i>
+                <b>Teeth</b>
+            </div>
+        </p-divider>
+        <app-tooth-form></app-tooth-form>
+
+        <div class="p-d-flex p-jc-end">
+            <div class="p-mr-2">
+                <button pButton type="button" label="Cancel" class="p-mr-2-secondary" (click)="cancelCreate()"></button>
+            </div>
+            <div class="p-mr-2">
+                <button pButton type="button" label="Save" class="p-mr-2-secondary" (click)="saveNewCase()"></button>
+            </div>
+        </div>
     </form>
+
+
 </p-dialog>
 
 <!-- EDIT -->

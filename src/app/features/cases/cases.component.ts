@@ -8,6 +8,8 @@ import { ToothType } from 'src/app/core/models/tooth-type.model';
 import { Tooth } from 'src/app/core/models/tooth.model';
 import { CaseService } from 'src/app/core/services/case.service';
 import { DoctorService } from 'src/app/core/services/doctor.service';
+import { PatientService } from 'src/app/core/services/patient.service';
+import { ToothService } from 'src/app/core/services/tooth.service';
 
 @Component({
   selector: 'app-cases',
@@ -25,7 +27,10 @@ export class CasesComponent implements OnInit {
   patientForm: FormGroup;
   toothForm: FormGroup;
 
-  constructor(private caseService: CaseService, private docService:DoctorService, private confirmationService: ConfirmationService) { }
+  formStep: number;
+
+  constructor(private caseService: CaseService, private docService:DoctorService, private patientService:PatientService, 
+    private toothService:ToothService, private confirmationService: ConfirmationService) { }
 
   ngOnInit(): void {
     this.getDoctors();
@@ -55,12 +60,11 @@ export class CasesComponent implements OnInit {
     })
   }
 
-  editFormGroup(id, doctorId, createdDate, receiveDate, dueDate, price, remake, rush, firstName, lastName, phone, address, toothNum, shade){
+  editFormGroup(id, doctorId, receiveDate, dueDate, price, remake, rush, firstName, lastName, phone, address, toothNum, shade){
     this.displayEdit = true;
     this.caseForm = new FormGroup({
       CaseId: new FormControl(id),
       DoctorId: new FormControl(doctorId, [Validators.required]),
-      CreatedDate: new FormControl(createdDate, [Validators.required]),
       ReceiveDate: new FormControl(receiveDate, [Validators.required]),
       DueDate: new FormControl(dueDate, [Validators.required]),
       Price: new FormControl(price, [Validators.required]),
@@ -80,14 +84,27 @@ export class CasesComponent implements OnInit {
   }
 
   saveNewCase(){
-    let newCase = new Case(this.caseForm.value.DoctorId, this.caseForm.value.CreatedDate, this.caseForm.value.ReceiveDate, this.caseForm.value.DueDate, 
+    let newCase = new Case(this.caseForm.value.DoctorId, this.caseForm.value.ReceiveDate, this.caseForm.value.DueDate, 
       this.caseForm.value.Price, this.caseForm.value.Remake, this.caseForm.value.Rush);
 
-      this.caseService.createCase(newCase).toPromise().then(t =>{
-        this.displayCreate = false;
-        this.caseForm.reset();
-        this.getCases();
-      })
+    let newPatient = new Patient(this.patientForm.value.FirstName, this.patientForm.value.LastName, this.patientForm.value.Phone, 
+      this.patientForm.value.Address);
+
+    let newTooth = new Tooth(this.toothForm.value.ToothNumber, this.toothForm.value.Shade);
+
+    this.caseService.createCase(newCase).toPromise().then(t =>{
+      this.displayCreate = false;
+      this.caseForm.reset();
+      this.getCases();
+    })
+
+    this.patientService.createPatient(newPatient).toPromise().then(p =>{
+      this.patientForm.reset();
+    })
+
+    this.toothService.createTooth(newTooth).toPromise().then(tooth =>{
+      this.toothForm.reset();
+    })
   }
 
   getDoctors(){
@@ -108,13 +125,13 @@ export class CasesComponent implements OnInit {
   }
 
   editCase(c:Case, t:Tooth){
-    this.editFormGroup(c.CaseId, c.CreatedDate, c.ReceiveDate, c.DueDate, c.Price, c.Remake, c.Rush, 
+    this.editFormGroup(c.CaseId, c.ReceiveDate, c.DueDate, c.Price, c.Remake, c.Rush, 
       c.Doctor.DoctorId, c.Patient.FirstName, c.Patient.LastName, c.Patient.Phone, c.Patient.Address, c.Teeth.ToothNumber, c.Teeth.Shade);
     this.displayEdit = true;
   }
 
   updateCase(){
-    let updatedCase = new Case(this.caseForm.value.DoctorId, this.caseForm.value.CreatedDate, this.caseForm.value.ReceiveDate, this.caseForm.value.DueDate, 
+    let updatedCase = new Case(this.caseForm.value.DoctorId, this.caseForm.value.ReceiveDate, this.caseForm.value.DueDate, 
       this.caseForm.value.Price, this.caseForm.value.Remake, this.caseForm.value.Rush);
 
     this.caseService.editCase(this.caseForm.value.CaseId, updatedCase).toPromise().then(c =>{
