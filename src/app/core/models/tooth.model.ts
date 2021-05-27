@@ -11,7 +11,8 @@ export class Tooth{
     Case: Case;
     ToothType: ToothType;
 
-    constructor(ToothNumber, Shade){
+    constructor(ToothTypeId, ToothNumber, Shade){
+        this.ToothTypeId = ToothTypeId;
         this.ToothNumber = ToothNumber;
         this.Shade = Shade;
     }

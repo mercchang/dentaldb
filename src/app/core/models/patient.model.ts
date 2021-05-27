@@ -13,7 +13,8 @@ export class Patient{
     Case: Case;
     Doctor: Doctor;
 
-    constructor(FirstName, LastName, Phone, Address){
+    constructor(CaseId, FirstName, LastName, Phone, Address){
+        this.CaseId = CaseId;
         this.FirstName = FirstName;
         this.LastName = LastName;
         this.Phone = Phone;

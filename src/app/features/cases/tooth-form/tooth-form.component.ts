@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ToothType } from 'src/app/core/models/tooth-type.model';
 import { ToothtypeService } from 'src/app/core/services/toothtype.service';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-tooth-form',
