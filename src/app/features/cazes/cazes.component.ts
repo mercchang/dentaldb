@@ -1,3 +1,4 @@
+import { stringify } from '@angular/compiler/src/util';
 import { Component, OnInit } from '@angular/core';
 import { ITS_JUST_ANGULAR } from '@angular/core/src/r3_symbols';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
@@ -23,7 +24,7 @@ export class CazesComponent implements OnInit {
   displayEdit: boolean = false;
   cazes: Caze[];
   doctor: Doctor;
-  lastNames: string[];
+  lastName: string;
   doctors: Doctor[];
   types: ToothType[];
   selectedDoctor: Doctor;
@@ -49,7 +50,8 @@ export class CazesComponent implements OnInit {
       DueDate : new FormControl(null, [Validators.required]),
       Price: new FormControl(null, [Validators.required]),
       Remake: new FormControl(null, [Validators.required]),
-      Rush: new FormControl(null, [Validators.required])
+      Rush: new FormControl(null, [Validators.required]),
+      DoctorName: new FormControl(null, [Validators.required])
     })
     // this.patientForm = new FormGroup({
     //   CazeId: new FormControl(null, [Validators.required]),
@@ -111,20 +113,31 @@ export class CazesComponent implements OnInit {
   }
 
   saveNewCaze(){
-    let newCaze = new Caze(this.cazeForm.value.DoctorId, this.cazeForm.value.ReceiveDate, this.cazeForm.value.DueDate, 
-      this.cazeForm.value.Price, this.cazeForm.value.Remake, this.cazeForm.value.Rush);
+    let n: string = "";
 
+    //console.log(n);
+    let newCaze = new Caze(this.cazeForm.value.DoctorId, this.cazeForm.value.ReceiveDate, this.cazeForm.value.DueDate, 
+      this.cazeForm.value.Price, this.cazeForm.value.Remake, this.cazeForm.value.Rush, n);
+
+    // this.docService.getDoctor(this.cazeForm.value.DoctorId).toPromise().then(d => {
+    //   //console.log(d.DoctorId);
+    //   //console.log(d);
+    //   n = d.LastName;
+    //   newCaze.Doctor = d;
+    //   newCaze.DoctorName = newCaze.Doctor.LastName;
+    //   //console.log(JSON.stringify(newCaze.Doctor));
+    //   console.log(JSON.stringify(newCaze.Doctor.LastName));
+    //   console.log(Object.keys(d))
+    // })
+      
     //let newTooth = new Tooth(this.toothForm.value.ToothTypeId, this.toothForm.value.ToothNumber, this.toothForm.value.Shade);
       //console.log(newCaze);
       
     this.cazeService.createCaze(newCaze).toPromise().then(c =>{
-      console.log(c);
       this.displayCreate = false;
       this.cazeForm.reset();
       this.getCazes();
-    }), err=> {
-      console.log("Error:", err);
-    }
+    })
     
     // let newPatient = new Patient(newCaze.CazeId, this.patientForm.value.FirstName, this.patientForm.value.LastName, this.patientForm.value.Phone, 
     //   this.patientForm.value.Address);
@@ -141,24 +154,14 @@ export class CazesComponent implements OnInit {
   getDoctors(){
     this.docService.getDoctors().toPromise().then((d:Doctor[]) => {
       this.doctors = d;
-      console.log(this.doctors);
-      this.getLastNames(this.doctors);
+      //console.log(this.doctors);
     })
   }
 
-  getDoctor(id:number){
+  getDoc(id:number){
     this.docService.getDoctor(id).toPromise().then((doc:Doctor) => {
       this.doctor = doc;
     })
-  }
-
-  getLastNames(d:Doctor[]){
-    for(let i = 0; i < d.length; i++)
-    {
-      this.lastNames[i] = d[i].LastName.toString();
-      //console.log(this.lastNames[i])
-      
-    }
   }
 
   getTypes(){
@@ -186,7 +189,7 @@ export class CazesComponent implements OnInit {
 
   updateCaze(){
     let updatedCaze = new Caze(this.cazeForm.value.DoctorId, this.cazeForm.value.ReceiveDate, this.cazeForm.value.DueDate, 
-      this.cazeForm.value.Price, this.cazeForm.value.Remake, this.cazeForm.value.Rush);
+      this.cazeForm.value.Price, this.cazeForm.value.Remake, this.cazeForm.value.Rush, this.cazeForm.value);
 
     this.cazeService.editCaze(this.cazeForm.value.CazeId, updatedCaze).toPromise().then(c =>{
       console.log(this.cazeForm.value.CazeId);
@@ -207,7 +210,6 @@ export class CazesComponent implements OnInit {
   }
 
   deleteCaze(id:number){
-    console.log(id);
     this.confirmationService.confirm({
       message: 'Are you sure you want to delete this Caze?',
       accept: () => {
