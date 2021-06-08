@@ -1,4 +1,4 @@
-import { Case } from "./case.model";
+import { Caze } from "./caze.model";
 import { ToothType } from "./tooth-type.model";
 
 export class Tooth{
@@ -8,7 +8,7 @@ export class Tooth{
     ToothNumber: number;
     Shade: string;
 
-    Case: Case;
+    Case: Caze;
     ToothType: ToothType;
 
     constructor(ToothTypeId, ToothNumber, Shade){

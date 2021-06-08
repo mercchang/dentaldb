@@ -1,4 +1,4 @@
-import { Case } from "./case.model";
+import { Caze } from "./caze.model";
 import { Doctor } from "./doctor.model";
 
 export class Patient{
@@ -9,9 +9,8 @@ export class Patient{
     LastName: string;
     Phone: string;
     Address: string;
-
-    Case: Case;
-    Doctor: Doctor;
+    DoctorName: string;
+    Case: Caze;
 
     constructor(CaseId, FirstName, LastName, Phone, Address){
         this.CaseId = CaseId;

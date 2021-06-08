@@ -1,4 +1,4 @@
-import { Case } from "./case.model";
+import { Caze } from "./caze.model";
 import { Patient } from "./patient.model";
 
 export class Doctor{
@@ -9,7 +9,7 @@ export class Doctor{
     Phone: string;
 
     Patients: Patient[];
-    Cases: Case[];
+    Cases: Caze[];
 
     constructor(FirstName, LastName, Address, Phone){
         this.FirstName = FirstName;

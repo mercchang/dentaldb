@@ -2,17 +2,17 @@ import { Doctor } from "./doctor.model";
 import { Patient } from "./patient.model";
 import { Tooth } from "./tooth.model";
 
-export class Case{
-    CaseId: number;
+export class Caze{
+    CazeId: number;
     DoctorId: number;
-    CreatedDate: string;
-    ReceiveDate: string;
-    DueDate: string;
+    CreatedDate: Date;
+    ReceiveDate: Date;
+    DueDate: Date;
     Price: string;
     Remake: boolean;
     Rush: boolean;
-
-    Doctor: Doctor;
+    DoctorName: string;
+    
     Patient: Patient;
     Teeth: Tooth;
 

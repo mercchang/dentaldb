@@ -2,16 +2,16 @@
     <div class="p-col">
         <div class="p-grid">
             <div class="p-col">
-                <button pButton type="button" label="New Case" (click)="createCase()"></button>
+                <button pButton type="button" label="New Caze" (click)="createCaze()"></button>
             </div>
         </div>
         <div class="p-grid">
             <div class="p-col">
-                <p-card header="Cases">
-                    <p-table [value]="cases">
-                        <ng-template pTemplate="Cases">
+                <p-card header="Cazes" let d of Doctors>
+                    <p-table [value]="cazes">
+                        <ng-template pTemplate="header">
                             <tr>
-                                <th pSortableColumn="CaseId">Id <p-sortIcon field="code"></p-sortIcon></th>
+                                <th pSortableColumn="CazeId">Id <p-sortIcon field="code"></p-sortIcon></th>
                                 <th pSortableColumn="Doctor">Doctor <p-sortIcon field="name"></p-sortIcon></th>
                                 <th pSortableColumn="Received">Received <p-sortIcon field="category"></p-sortIcon></th>
                                 <th pSortableColumn="Due">Due <p-sortIcon field="quantity"></p-sortIcon></th>
@@ -23,14 +23,14 @@
                         </ng-template>
                         <ng-template pTemplate="body" let-c>
                             <tr>
-                                <td>{{c.caseId}}</td>
-                                <td>{{c.doctorId}}</td>
-                                <td>{{c.receiveDate}}</td>
-                                <td>{{c.dueDate}}</td>
-                                <td>{{c.price | currency: 'USD'}}</td>
-                                <td>{{c.remake}}</td>
-                                <td>{{c.rush}}</td>
-                                <td></td>
+                                <td>{{c.CazeId}}</td>
+                                <td>{{c.DoctorId}}</td>
+                                <td>{{c.ReceiveDate | date}}</td>
+                                <td>{{c.DueDate | date}}</td>
+                                <td>{{c.Price | currency: 'USD'}}</td>
+                                <td>{{c.Remake}}</td>
+                                <td>{{c.Rush}}</td>
+                                <td><button pButton type="button" class="p-button-danger" icon="pi pi-times" (click)="deleteCaze(c.CazeId)"></button></td>
                             </tr>
                         </ng-template>
                     </p-table>
@@ -41,10 +41,10 @@
 </div>
 
 <!-- CREATE -->
-<p-dialog header="Create New Case" [(visible)]="displayCreate" (onHide)="cancelCreate()" [style]="{'width': '50vw'}">
-    <!-- <form [formGroup]="caseForm" (ngSubmit)="saveNewCase()">
-        <form [formGroup]="patientForm" (ngSubmit)="saveNewCase()">
-            <form [formGroup]="toothForm" (ngSubmit)="saveNewCase()">
+<p-dialog header="Create New Caze" [(visible)]="displayCreate" (onHide)="cancelCreate()" [style]="{'width': '50vw'}">
+    <!-- <form [formGroup]="CazeForm" (ngSubmit)="saveNewCaze()">
+        <form [formGroup]="patientForm" (ngSubmit)="saveNewCaze()">
+            <form [formGroup]="toothForm" (ngSubmit)="saveNewCaze()">
                 <div class="p-fluid">
                     <div class="p-field">
                         <label for="DoctorId" class="p-mr-2">Select Doctor</label>
@@ -111,14 +111,14 @@
                         <button pButton type="button" label="Cancel" class="p-mr-2-secondary" (click)="cancelCreate()"></button>
                     </div>
                     <div class="p-mr-2">
-                        <button pButton type="button" label="Save" class="p-mr-2-secondary" (click)="saveNewCase()"></button>
+                        <button pButton type="button" label="Save" class="p-mr-2-secondary" (click)="saveNewCaze()"></button>
                     </div>
                 </div>
             </form>
         </form>
     </form> -->
 
-    <form [formGroup]="caseForm" (ngSubmit)="saveNewCase()">
+    <form [formGroup]="cazeForm" (ngSubmit)="saveNewCaze()">
         <div class="p-grid">
             <div class="p-col">
                 <div class="p-fluid">
@@ -140,7 +140,7 @@
                 <div class="p-fluid">
                     <div class="p-field">
                         <label for="Price" class="p-mr-2">Price</label>
-                        <p>toothType.Price</p>
+                        <input id="Price" type="Text" pInputText formControlName="Price" [style]="{'width': '100%'}">
                     </div>
                     <div class="p-field">
                         <label for="Remake" class="p-mr-2">Remake</label>
@@ -154,7 +154,7 @@
             </div>
         </div>
 
-        <p-divider align="left">
+        <!-- <p-divider align="left">
             <div class="p-d-inline-flex p-ai-center">
                 <i class="pi pi-user p-mr-2"></i>
                 <b>Patient</b>
@@ -220,24 +220,23 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
 
         <div class="p-d-flex p-jc-end">
             <div class="p-mr-2">
                 <button pButton type="button" label="Cancel" class="p-mr-2-secondary" (click)="cancelCreate()"></button>
             </div>
             <div class="p-mr-2">
-                <button pButton type="button" label="Save" class="p-mr-2-secondary" (click)="saveNewCase()"></button>
+                <button pButton type="button" label="Save" class="p-mr-2-secondary" (click)="saveNewCaze()"></button>
             </div>
         </div>
     </form>
-
-{{caseForm.value | json}}
+<!-- {{CazeForm.value | json}} -->
 </p-dialog>
 
 <!-- EDIT -->
-<p-dialog header="Edit Case" [(visible)]="displayEdit" (onHide)="cancelEdit()" [style]="{'width': '50vw'}">
-    <form [formGroup]="caseForm" (ngSubmit)="updateCase()">
+<!-- <p-dialog header="Edit Caze" [(visible)]="displayEdit" (onHide)="cancelEdit()" [style]="{'width': '50vw'}">
+    <form [formGroup]="cazeForm" (ngSubmit)="updateCaze()">
         <div class="p-fluid">
             <div class="p-field">
                 <label for="ReceiveDate" class="p-mr-2">ReceiveDate</label>
@@ -265,11 +264,11 @@
                 <button pButton type="button" label="Cancel" class="p-mr-2-secondary" (click)="cancelEdit()"></button>
             </div>
             <div class="p-mr-2">
-                <button pButton type="button" label="Save" class="p-mr-2-secondary" (click)="updateCase()"></button>
+                <button pButton type="button" label="Save" class="p-mr-2-secondary" (click)="updateCaze()"></button>
             </div>
         </div>
     </form>
-</p-dialog>
+</p-dialog> -->
 
 <p-confirmDialog #cd header="Confirmation" icon="pi pi-exclamation-triangle">
     <p-footer>

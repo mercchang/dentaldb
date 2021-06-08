@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AppComponent } from './app.component';
-import { CasesComponent } from './features/cases/cases.component';
+import { CazesComponent } from './features/cazes/cazes.component';
 import { ContentComponent } from './features/content/content.component';
 import { DashboardComponent } from './features/dashboard/dashboard.component';
 import { DoctorsComponent } from './features/doctors/doctors.component';
@@ -15,7 +15,7 @@ const routes: Routes = [{
     {path: 'main', component: DashboardComponent},
     {path: 'sidemenu', component:SideMenuComponent},
     {path: 'doctors', component: DoctorsComponent},
-    {path: 'cases', component: CasesComponent},
+    {path: 'cases', component: CazesComponent},
     {path: 'patients', component: PatientsComponent},
     {path: 'toothtypes', component: ToothTypesComponent}
   ]}
