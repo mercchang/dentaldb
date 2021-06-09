@@ -1,7 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AppComponent } from './app.component';
+import { CazeFormComponent } from './features/cazes/caze-form/caze-form.component';
 import { CazesComponent } from './features/cazes/cazes.component';
+import { PatientFormComponent } from './features/cazes/patient-form/patient-form.component';
+import { ToothFormComponent } from './features/cazes/tooth-form/tooth-form.component';
 import { ContentComponent } from './features/content/content.component';
 import { DashboardComponent } from './features/dashboard/dashboard.component';
 import { DoctorsComponent } from './features/doctors/doctors.component';
@@ -17,7 +20,10 @@ const routes: Routes = [{
     {path: 'doctors', component: DoctorsComponent},
     {path: 'cases', component: CazesComponent},
     {path: 'patients', component: PatientsComponent},
-    {path: 'toothtypes', component: ToothTypesComponent}
+    {path: 'toothtypes', component: ToothTypesComponent},
+    {path: 'caseform', component: CazeFormComponent},
+    {path: 'patientform', component: PatientFormComponent},
+    {path: 'toothform', component: ToothFormComponent},
   ]}
 ]
 

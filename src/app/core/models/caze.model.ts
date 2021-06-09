@@ -12,18 +12,34 @@ export class Caze{
     Remake: boolean;
     Rush: boolean;
     DoctorName: string;
+    PatientFirstName: string;
+    PatientLastName: string;
+    PatientFullName: string;
+    PatientAddress: string;
+    PatientPhone:string;
+    Tooth: number;
+    Shade: string;
+    TType: string;
 
     Doctor: Doctor;
-    Patient: Patient;
     Teeth: Tooth;
 
-    constructor(DoctorId, ReceiveDate, DueDate, Price, Remake, Rush, DoctorName){
-        this.DoctorId = DoctorId;
-        this.ReceiveDate = ReceiveDate;
-        this.DueDate = DueDate;
-        this.Price = Price;
-        this.Remake = Remake;
-        this.Rush = Rush;
-        this.DoctorName = DoctorName;
+    constructor(DoctorId, ReceiveDate, DueDate, Price, Remake, Rush, DoctorName, PatientFirstName, PatientLastName, PatientFullName, 
+        PatientAddress, PatientPhone, Tooth, Shade, TType){
+            this.DoctorId = DoctorId;
+            this.ReceiveDate = ReceiveDate;
+            this.DueDate = DueDate;
+            this.Price = Price;
+            this.Remake = Remake;
+            this.Rush = Rush;
+            this.DoctorName = DoctorName;
+            this.PatientFirstName = PatientFirstName;
+            this.PatientLastName = PatientLastName;
+            this.PatientFullName = PatientFullName;
+            this.PatientAddress = PatientAddress;
+            this.PatientPhone = PatientPhone;
+            this.Tooth = Tooth;
+            this.Shade = Shade;
+            this.TType = TType;
     }
 }

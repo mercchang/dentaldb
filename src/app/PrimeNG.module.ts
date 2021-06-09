@@ -29,7 +29,7 @@ import { CalendarModule } from 'primeng/calendar';
 import { GalleriaModule } from 'primeng/galleria';
 import { SliderModule } from 'primeng/slider';
 import { ChipModule } from 'primeng/chip';
-import { Divider, DividerModule } from 'primeng/divider';
+import { DividerModule } from 'primeng/divider';
 import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({

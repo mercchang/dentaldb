@@ -15,6 +15,9 @@ import { PatientsComponent } from './features/patients/patients.component';
 import { ContentComponent } from './features/content/content.component';
 import { ConfirmationService } from 'primeng/api';
 import { CazesComponent } from './features/cazes/cazes.component';
+import { CazeFormComponent } from './features/cazes/caze-form/caze-form.component';
+import { PatientFormComponent } from './features/cazes/patient-form/patient-form.component';
+import { ToothFormComponent } from './features/cazes/tooth-form/tooth-form.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +29,9 @@ import { CazesComponent } from './features/cazes/cazes.component';
     PatientsComponent,
     ContentComponent,
     CazesComponent,
+    CazeFormComponent,
+    PatientFormComponent,
+    ToothFormComponent,
   ],
   imports: [
     BrowserModule,

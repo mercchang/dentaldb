@@ -2,12 +2,12 @@
     <div class="p-col">
         <div class="p-grid">
             <div class="p-col">
-                <button pButton type="button" label="New Caze" (click)="createCaze()"></button>
+                <button pButton type="button" label="New Case" (click)="createCaze()"></button>
             </div>
         </div>
         <div class="p-grid">
             <div class="p-col">
-                <p-card header="Cazes" let d of Doctors>
+                <p-card header="Cases" let d of Doctors>
                     <p-table [value]="cazes">
                         <ng-template pTemplate="header">
                             <tr>
@@ -18,18 +18,22 @@
                                 <th pSortableColumn="Price">Price <p-sortIcon field="price"></p-sortIcon></th>
                                 <th pSortableColumn="Remake">Remake <p-sortIcon field="price"></p-sortIcon></th>
                                 <th pSortableColumn="Rush">Rush <p-sortIcon field="price"></p-sortIcon></th>
+                                <th pSortableColumn="PatientFullName">Patient <p-sortIcon field="patient"></p-sortIcon></th>
+                                <th pSortableColumn="Type">Type <p-sortIcon field="type"></p-sortIcon></th>
                                 <th></th>
                             </tr>
                         </ng-template>
                         <ng-template pTemplate="body" let-c>
                             <tr>
                                 <td>{{c.CazeId}}</td>
-                                <td>{{c.DoctorId}}</td>
+                                <td>{{c.DoctorName}}</td>
                                 <td>{{c.ReceiveDate | date}}</td>
                                 <td>{{c.DueDate | date}}</td>
                                 <td>{{c.Price | currency: 'USD'}}</td>
                                 <td>{{c.Remake}}</td>
                                 <td>{{c.Rush}}</td>
+                                <td>{{c.PatientFullName}}</td>
+                                <td>{{c.TType}}</td>
                                 <td><button pButton type="button" class="p-button-danger" icon="pi pi-times" (click)="deleteCaze(c.CazeId)"></button></td>
                             </tr>
                         </ng-template>
@@ -41,83 +45,7 @@
 </div>
 
 <!-- CREATE -->
-<p-dialog header="Create New Caze" [(visible)]="displayCreate" (onHide)="cancelCreate()" [style]="{'width': '50vw'}">
-    <!-- <form [formGroup]="CazeForm" (ngSubmit)="saveNewCaze()">
-        <form [formGroup]="patientForm" (ngSubmit)="saveNewCaze()">
-            <form [formGroup]="toothForm" (ngSubmit)="saveNewCaze()">
-                <div class="p-fluid">
-                    <div class="p-field">
-                        <label for="DoctorId" class="p-mr-2">Select Doctor</label>
-                        <p-dropdown [options]="doctors" optionLabel="LastName" optionValue="DoctorId"></p-dropdown>
-                    </div>
-                    <div class="p-field">
-                        <label for="ReceiveDate" class="p-mr-2">Receive Date</label>
-                        <p-calendar id="ReceiveDate" formControlName="ReceiveDate"></p-calendar>
-                    </div>
-                    <div class="p-field">
-                        <label for="DueDate" class="p-mr-2">Due Date</label>
-                        <p-calendar id="DueDate" formControlName="DueDate"></p-calendar>
-                    </div>
-                    <div class="p-field">
-                        <label for="Price" class="p-mr-2">Price</label>
-                        <input id="Price" type="Text" pInputText formControlName="Price" [style]="{'width': '100%'}">
-                    </div>
-                    <div class="p-field">
-                        <label for="Remake" class="p-mr-2">Remake</label>
-                        <input id="Remake" type="Text" pInputText formControlName="Remake" [style]="{'width': '100%'}">
-                    </div>
-                    <div class="p-field">
-                        <label for="Rush" class="p-mr-2">Rush</label>
-                        <input id="Rush" type="Text" pInputText formControlName="Rush" [style]="{'width': '100%'}">
-                    </div>
-                </div>
-                <div class="p-fluid">
-                    <div class="p-field">
-                        <label for="FirstName" class="p-mr-2">First Name</label>
-                        <input id="FirstName" type="Text" pInputText formControlName="FirstName" [style]="{'width': '100%'}">
-                    </div>
-                    <div class="p-field">
-                        <label for="LastName" class="p-mr-2">Last Name</label>
-                        <input id="LastName" type="Text" pInputText formControlName="LastName" [style]="{'width': '100%'}">
-                    </div>
-                    <div class="p-field">
-                        <label for="Phone" class="p-mr-2">Phone</label>
-                        <input id="Phone" type="Text" pInputText formControlName="Phone" [style]="{'width': '100%'}">
-                    </div>
-                    <div class="p-field">
-                        <label for="Address" class="p-mr-2">Address</label>
-                        <input id="Address" type="Text" pInputText formControlName="Address" [style]="{'width': '100%'}">
-                    </div>
-                </div>
-                <div class="p-fluid">
-                    <div class="p-field">
-                        <label for="ToothType" class="p-mr-2">Tooth Type</label>
-                        <p-dropdown [options]="types" optionLabel="Tooth Type" optionValue="Name"></p-dropdown>
-                    </div>
-                    <div class="p-field">
-                        <label for="ToothNumber" class="p-mr-2">Tooth Number</label>
-                        <input id="ToothNumber" type="Text" pInputText formControlName="ToothNumber" [style]="{'width': '100%'}">
-                    </div>
-                    <div class="p-field">
-                        <label for="Shade" class="p-mr-2">Shade</label>
-                        <input id="Shade" type="Text" pInputText formControlName="Shade" [style]="{'width': '100%'}">
-                    </div>
-                    <div class="p-field">
-                        Price = $123
-                    </div>
-                </div>
-                <div class="p-d-flex p-jc-end">
-                    <div class="p-mr-2">
-                        <button pButton type="button" label="Cancel" class="p-mr-2-secondary" (click)="cancelCreate()"></button>
-                    </div>
-                    <div class="p-mr-2">
-                        <button pButton type="button" label="Save" class="p-mr-2-secondary" (click)="saveNewCaze()"></button>
-                    </div>
-                </div>
-            </form>
-        </form>
-    </form> -->
-
+<p-dialog header="Create New Caze" [(visible)]="displayCreate" (onHide)="cancelCreate()" [style]="{'width': '60vw', 'height': '30vw'}">
     <form [formGroup]="cazeForm" (ngSubmit)="saveNewCaze()">
         <div class="p-grid">
             <div class="p-col">
@@ -154,35 +82,35 @@
             </div>
         </div>
 
-        <!-- <p-divider align="left">
+        <p-divider align="left">
             <div class="p-d-inline-flex p-ai-center">
                 <i class="pi pi-user p-mr-2"></i>
                 <b>Patient</b>
             </div>
         </p-divider>
 
-        <div class="p-grid" formGroupName="patientInfo">
+        <div class="p-grid">
             <div class="p-col">
                 <div class="p-fluid">
                     <div class="p-field">
-                        <label for="FirstName" class="p-mr-2">First Name</label>
-                        <input id="FirstName" type="Text" pInputText formControlName="FirstName" [style]="{'width': '100%'}">
+                        <label for="PatientFirstName" class="p-mr-2">First Name</label>
+                        <input id="PatientFirstName" type="Text" pInputText formControlName="PatientFirstName" [style]="{'width': '100%'}">
                     </div>
                     <div class="p-field">
-                        <label for="LastName" class="p-mr-2">Last Name</label>
-                        <input id="LastName" type="Text" pInputText formControlName="LastName" [style]="{'width': '100%'}">
+                        <label for="PatientLastName" class="p-mr-2">Last Name</label>
+                        <input id="PatientLastName" type="Text" pInputText formControlName="PatientLastName" [style]="{'width': '100%'}">
                     </div>
                 </div>
             </div>
             <div class="p-col">
                 <div class="p-fluid">
                     <div class="p-field">
-                        <label for="Phone" class="p-mr-2">Phone</label>
-                        <input id="Phone" type="Text" pInputText formControlName="Phone" [style]="{'width': '100%'}">
+                        <label for="PatientAddress" class="p-mr-2">Address</label>
+                        <input id="PatientAddress" type="Text" pInputText formControlName="PatientAddress" [style]="{'width': '100%'}">
                     </div>
                     <div class="p-field">
-                        <label for="Address" class="p-mr-2">Address</label>
-                        <input id="Address" type="Text" pInputText formControlName="Address" [style]="{'width': '100%'}">
+                        <label for="PatientPhone" class="p-mr-2">Phone</label>
+                        <input id="PatientPhone" type="Text" pInputText formControlName="PatientPhone" [style]="{'width': '100%'}">
                     </div>
                 </div>
             </div>
@@ -195,16 +123,16 @@
             </div>
         </p-divider>
 
-        <div class="p-grid" formGroupName="toothInfo">
+        <div class="p-grid">
             <div class="p-col">
                 <div class="p-fluid">
                     <div class="p-field">
-                        <label for="ToothType" class="p-mr-2">Tooth Type</label>
-                        <p-dropdown [options]="types" placeholder="Select a Type" optionLabel="Name" formControlName="ToothTypeId" optionValue="ToothTypeId"></p-dropdown>
+                        <label for="TType" class="p-mr-2">Tooth Type</label>
+                        <p-dropdown [options]="types" placeholder="Select a Type" optionLabel="Name" formControlName="TType" optionValue="Name"></p-dropdown>
                     </div>
                     <div class="p-field">
-                        <label for="ToothNumber" class="p-mr-2">Tooth Number</label>
-                        <input id="ToothNumber" type="Text" pInputText formControlName="ToothNumber" [style]="{'width': '100%'}">
+                        <label for="Tooth" class="p-mr-2">Tooth Number</label>
+                        <input id="Tooth" type="number" pInputText formControlName="Tooth" [style]="{'width': '100%'}">
                     </div>
                 </div>
             </div>
@@ -214,13 +142,9 @@
                         <label for="Shade" class="p-mr-2">Shade</label>
                         <input id="Shade" type="Text" pInputText formControlName="Shade" [style]="{'width': '100%'}">
                     </div>
-                    <div class="p-field">
-                        <label for="Price" class="p-mr-2">Price</label>
-                        <p>toothType.Price</p>
-                    </div>
                 </div>
             </div>
-        </div> -->
+        </div>
 
         <div class="p-d-flex p-jc-end">
             <div class="p-mr-2">
@@ -231,7 +155,6 @@
             </div>
         </div>
     </form>
-<!-- {{CazeForm.value | json}} -->
 </p-dialog>
 
 <!-- EDIT -->
