@@ -79,7 +79,6 @@ export class CazesComponent implements OnInit {
           if (this.types[i].Name == this.cazeForm.value.TType)
           {
             this.price = this.types[i].Price;
-            console.log(this.price);
           }
         }
       }),
@@ -90,7 +89,6 @@ export class CazesComponent implements OnInit {
           if (this.doctors[i].DoctorId == this.cazeForm.value.DoctorId)
           {
             this.docName = this.doctors[i].LastName;
-            console.log(this.price);
           }
         }
       })

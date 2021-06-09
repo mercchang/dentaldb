@@ -1,39 +1,39 @@
 
-        <div class="p-grid">
-            <div class="p-col">
-                <button pButton type="button" label="New Doctor" (click)="createDoctor()"></button>
-            </div>
-        </div>
-        <div class="p-grid">
-            <div class="p-col">
-                <p-card header="Doctors">
-                    <p-table [value]="doctors">
-                        <ng-template pTemplate="header">
-                            <tr>
-                                <th>Id</th>
-                                <th>First</th>
-                                <th>Last</th>
-                                <th>Address</th>
-                                <th>Phone</th>
-                            </tr>
-                        </ng-template>
-                        <ng-template pTemplate="body" let-doc>
-                            <tr>
-                                <td>{{doc.DoctorId}}</td>
-                                <td>{{doc.FirstName}}</td>
-                                <td>{{doc.LastName}}</td>
-                                <td>{{doc.Address}}</td>
-                                <td>{{doc.Phone}}</td>
-                                <td>
-                                    <button pButton type="button" class="p-button-warning" icon="pi pi-pencil" (click)="editDoctor(doc)"></button>
-                                    <button pButton type="button" class="p-button-danger" icon="pi pi-times" (click)="deleteDoctor(doc.DoctorId)"></button>
-                                </td>
-                            </tr>
-                        </ng-template>
-                    </p-table>
-                </p-card>
-            </div>
-        </div>
+<div class="p-grid">
+    <div class="p-col">
+        <button pButton type="button" label="New Doctor" (click)="createDoctor()"></button>
+    </div>
+</div>
+<div class="p-grid">
+    <div class="p-col">
+        <p-card header="Doctors">
+            <p-table [value]="doctors">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>Id</th>
+                        <th>First</th>
+                        <th>Last</th>
+                        <th>Address</th>
+                        <th>Phone</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-doc>
+                    <tr>
+                        <td>{{doc.DoctorId}}</td>
+                        <td>{{doc.FirstName}}</td>
+                        <td>{{doc.LastName}}</td>
+                        <td>{{doc.Address}}</td>
+                        <td>{{doc.Phone}}</td>
+                        <td>
+                            <button pButton type="button" class="p-button-warning" icon="pi pi-pencil" (click)="editDoctor(doc)"></button>
+                            <button pButton type="button" class="p-button-danger" icon="pi pi-times" (click)="deleteDoctor(doc.DoctorId)"></button>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </p-card>
+    </div>
+</div>
 
 <!-- CREATE -->
 <p-dialog header="Create Doctor" [(visible)]="displayCreate" (onHide)="cancelCreate()" [style]="{'width': '50vw'}">
