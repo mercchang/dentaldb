@@ -1,6 +1,4 @@
 import { Doctor } from "./doctor.model";
-import { Patient } from "./patient.model";
-import { Tooth } from "./tooth.model";
 
 export class Caze{
     CazeId: number;
@@ -20,12 +18,12 @@ export class Caze{
     Tooth: number;
     Shade: string;
     TType: string;
+    Status: boolean;
 
     Doctor: Doctor;
-    Teeth: Tooth;
 
     constructor(DoctorId, ReceiveDate, DueDate, Price, Remake, Rush, DoctorName, PatientFirstName, PatientLastName, PatientFullName, 
-        PatientAddress, PatientPhone, Tooth, Shade, TType){
+        PatientAddress, PatientPhone, Tooth, Shade, TType, Status){
             this.DoctorId = DoctorId;
             this.ReceiveDate = ReceiveDate;
             this.DueDate = DueDate;
@@ -41,5 +39,6 @@ export class Caze{
             this.Tooth = Tooth;
             this.Shade = Shade;
             this.TType = TType;
+            this.Status = Status;
     }
 }

@@ -31,6 +31,7 @@ import { SliderModule } from 'primeng/slider';
 import { ChipModule } from 'primeng/chip';
 import { DividerModule } from 'primeng/divider';
 import { ReactiveFormsModule } from '@angular/forms';
+import { ToggleButtonModule } from 'primeng/togglebutton';
 
 @NgModule({
     imports: [
@@ -66,7 +67,8 @@ import { ReactiveFormsModule } from '@angular/forms';
         SliderModule,
         ChipModule,
         DividerModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        ToggleButtonModule
     ],
     exports: [
         InputTextareaModule,
@@ -101,7 +103,8 @@ import { ReactiveFormsModule } from '@angular/forms';
         SliderModule,
         ChipModule,
         DividerModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        ToggleButtonModule
     ]
 })
 

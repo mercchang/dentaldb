@@ -1,5 +1,4 @@
 import { Caze } from "./caze.model";
-import { Patient } from "./patient.model";
 
 export class Doctor{
     DoctorId: number;
@@ -8,7 +7,6 @@ export class Doctor{
     Address: string;
     Phone: string;
 
-    Patients: Patient[];
     Cases: Caze[];
 
     constructor(FirstName, LastName, Address, Phone){

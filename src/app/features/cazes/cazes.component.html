@@ -11,16 +11,18 @@
                     <p-table [value]="cazes">
                         <ng-template pTemplate="header">
                             <tr>
-                                <th pSortableColumn="CazeId">Id <p-sortIcon field="code"></p-sortIcon></th>
-                                <th pSortableColumn="Doctor">Doctor <p-sortIcon field="name"></p-sortIcon></th>
-                                <th pSortableColumn="Received">Received <p-sortIcon field="category"></p-sortIcon></th>
-                                <th pSortableColumn="Due">Due <p-sortIcon field="quantity"></p-sortIcon></th>
-                                <th pSortableColumn="Price">Price <p-sortIcon field="price"></p-sortIcon></th>
-                                <th pSortableColumn="Remake">Remake <p-sortIcon field="price"></p-sortIcon></th>
-                                <th pSortableColumn="Rush">Rush <p-sortIcon field="price"></p-sortIcon></th>
-                                <th pSortableColumn="PatientFullName">Patient <p-sortIcon field="patient"></p-sortIcon></th>
-                                <th pSortableColumn="Type">Type <p-sortIcon field="type"></p-sortIcon></th>
-                                <th></th>
+                                <th pSortableColumn="CazeId">Id</th>
+                                <th pSortableColumn="Doctor">Doctor </th>
+                                <th pSortableColumn="Received">Received</th>
+                                <th pSortableColumn="Due">Due</th>
+                                <th pSortableColumn="Price">Price</th>
+                                <th pSortableColumn="Remake">Remake</th>
+                                <th pSortableColumn="Rush">Rush</th>
+                                <th pSortableColumn="PatientFullName">Patient</th>
+                                <th pSortableColumn="Type">Type</th>
+                                <th pSortableColumn="Shade">Shade</th>
+                                <th pSortableColumn="Status">Status</th>
+                                <th>Modify</th>
                             </tr>
                         </ng-template>
                         <ng-template pTemplate="body" let-c>
@@ -34,7 +36,16 @@
                                 <td>{{c.Rush}}</td>
                                 <td>{{c.PatientFullName}}</td>
                                 <td>{{c.TType}}</td>
-                                <td><button pButton type="button" class="p-button-danger" icon="pi pi-times" (click)="deleteCaze(c.CazeId)"></button></td>
+                                <td>{{c.Shade}}</td>
+                                <td>
+                                    <form [formGroup]="cazeForm" (ngSubmit)="changeStatus(c)">
+                                        <p-toggleButton onLabel="Complete" offLabel="Incomplete" formControlName="Status" (onChange)="changeStatus(c)"></p-toggleButton>
+                                    </form>
+                                </td>
+                                <td>
+                                    <button pButton type="button" class="p-button-warning" icon="pi pi-pencil" (click)="editCaze(c)"></button>
+                                    <button pButton type="button" class="p-button-danger" icon="pi pi-times" (click)="deleteCaze(c.CazeId)"></button>
+                                </td>
                             </tr>
                         </ng-template>
                     </p-table>
@@ -66,10 +77,6 @@
             </div>
             <div class="p-col">
                 <div class="p-fluid">
-                    <div class="p-field">
-                        <label for="Price" class="p-mr-2">Price</label>
-                        <input id="Price" type="Text" pInputText formControlName="Price" [style]="{'width': '100%'}">
-                    </div>
                     <div class="p-field">
                         <label for="Remake" class="p-mr-2">Remake</label>
                         <p-checkbox formControlName="Remake" binary="true" inputId="binary"></p-checkbox>
@@ -158,30 +165,111 @@
 </p-dialog>
 
 <!-- EDIT -->
-<!-- <p-dialog header="Edit Caze" [(visible)]="displayEdit" (onHide)="cancelEdit()" [style]="{'width': '50vw'}">
+<p-dialog header="Edit Caze" [(visible)]="displayEdit" (onHide)="cancelEdit()" [style]="{'width': '50vw'}">
     <form [formGroup]="cazeForm" (ngSubmit)="updateCaze()">
-        <div class="p-fluid">
-            <div class="p-field">
-                <label for="ReceiveDate" class="p-mr-2">ReceiveDate</label>
-                <input id="ReceiveDate" type="Text" pInputText formControlName="ReceiveDate" [style]="{'width': '100%'}">
+        <div class="p-grid">
+            <div class="p-col">
+                <div class="p-fluid">
+                    <div class="p-field">
+                        <label for="DoctorId" class="p-mr-2">Select Doctor</label>
+                        <p-dropdown [options]="doctors" placeholder="Select a Doctor" optionLabel="LastName" formControlName="DoctorId" optionValue="DoctorId"></p-dropdown>
+                    </div>
+                    <div class="p-field">
+                        <label for="ReceiveDate" class="p-mr-2">Receive Date</label>
+                        <p-calendar id="ReceiveDate" formControlName="ReceiveDate"></p-calendar>
+                    </div>
+                    <div class="p-field">
+                        <label for="DueDate" class="p-mr-2">Due Date</label>
+                        <p-calendar id="DueDate" formControlName="DueDate"></p-calendar>
+                    </div>
+                </div>
             </div>
-            <div class="p-field">
-                <label for="DueDate" class="p-mr-2">Last Name</label>
-                <input id="DueDate" type="Text" pInputText formControlName="DueDate" [style]="{'width': '100%'}">
-            </div>
-            <div class="p-field">
-                <label for="Price" class="p-mr-2">Price</label>
-                <input id="Price" type="Text" pInputText formControlName="Price" [style]="{'width': '100%'}">
-            </div>
-            <div class="p-field">
-                <label for="Remake" class="p-mr-2">Remake</label>
-                <input id="Remake" type="Text" pInputText formControlName="Remake" [style]="{'width': '100%'}">
-            </div>
-            <div class="p-field">
-                <label for="Rush" class="p-mr-2">Remake</label>
-                <input id="Rush" type="Text" pInputText formControlName="Rush" [style]="{'width': '100%'}">
+            <div class="p-col">
+                <div class="p-fluid">
+                    <div class="p-field">
+                        <label for="Remake" class="p-mr-2">Remake</label>
+                        <p-checkbox formControlName="Remake" binary="true" inputId="binary"></p-checkbox>
+                    </div>
+                    <div class="p-field">
+                        <label for="Rush" class="p-mr-2">Rush</label>
+                        <p-checkbox formControlName="Rush" binary="true" inputId="binary"></p-checkbox>
+                    </div>
+                </div>
             </div>
         </div>
+
+        <p-divider align="left">
+            <div class="p-d-inline-flex p-ai-center">
+                <i class="pi pi-user p-mr-2"></i>
+                <b>Patient</b>
+            </div>
+        </p-divider>
+
+        <div class="p-grid">
+            <div class="p-col">
+                <div class="p-fluid">
+                    <div class="p-field">
+                        <label for="PatientFirstName" class="p-mr-2">First Name</label>
+                        <input id="PatientFirstName" type="Text" pInputText formControlName="PatientFirstName" [style]="{'width': '100%'}">
+                    </div>
+                    <div class="p-field">
+                        <label for="PatientLastName" class="p-mr-2">Last Name</label>
+                        <input id="PatientLastName" type="Text" pInputText formControlName="PatientLastName" [style]="{'width': '100%'}">
+                    </div>
+                </div>
+            </div>
+            <div class="p-col">
+                <div class="p-fluid">
+                    <div class="p-field">
+                        <label for="PatientAddress" class="p-mr-2">Address</label>
+                        <input id="PatientAddress" type="Text" pInputText formControlName="PatientAddress" [style]="{'width': '100%'}">
+                    </div>
+                    <div class="p-field">
+                        <label for="PatientPhone" class="p-mr-2">Phone</label>
+                        <input id="PatientPhone" type="Text" pInputText formControlName="PatientPhone" [style]="{'width': '100%'}">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <p-divider align="left">
+            <div class="p-d-inline-flex p-ai-center">
+                <i class="pi pi-book p-mr-2"></i>
+                <b>Teeth</b>
+            </div>
+        </p-divider>
+
+        <div class="p-grid">
+            <div class="p-col">
+                <div class="p-fluid">
+                    <div class="p-field">
+                        <label for="TType" class="p-mr-2">Tooth Type</label>
+                        <p-dropdown [options]="types" placeholder="Select a Type" optionLabel="Name" formControlName="TType" optionValue="Name"></p-dropdown>
+                    </div>
+                    <div class="p-field">
+                        <label for="Tooth" class="p-mr-2">Tooth Number</label>
+                        <input id="Tooth" type="number" pInputText formControlName="Tooth" [style]="{'width': '100%'}">
+                    </div>
+                </div>
+            </div>
+            <div class="p-col">
+                <div class="p-fluid">
+                    <div class="p-field">
+                        <label for="Shade" class="p-mr-2">Shade</label>
+                        <input id="Shade" type="Text" pInputText formControlName="Shade" [style]="{'width': '100%'}">
+                    </div>
+                </div>
+            </div>
+            <div class="p-col">
+                <div class="p-fluid">
+                    <div class="p-field">
+                        <label for="Shade" class="p-mr-2">Status</label>
+                        <p-checkbox formControlName="Status" binary="true" inputId="binary"></p-checkbox>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="p-d-flex p-jc-end">
             <div class="p-mr-2">
                 <button pButton type="button" label="Cancel" class="p-mr-2-secondary" (click)="cancelEdit()"></button>
@@ -191,7 +279,7 @@
             </div>
         </div>
     </form>
-</p-dialog> -->
+</p-dialog>
 
 <p-confirmDialog #cd header="Confirmation" icon="pi pi-exclamation-triangle">
     <p-footer>

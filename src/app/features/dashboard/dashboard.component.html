@@ -1,36 +1,70 @@
-<div class="p-grid">
+<!-- <div class="p-grid">
     <div class="p-col">
         <p-card header="header">
             Content
         </p-card>
     </div>
-</div>
+</div> -->
 
 <div class="p-grid">
     <div class="p-col-6">
         <p-card header="Cases Due This Week">
-            <!-- <p-table[scrollable]="true" [rows]="50" scrollHeight="250px"
-            [virtualScroll]="true" [virtualRowHeight]="20">
-                <ng-template pTemplate="header" let-columns>
+            <p-table [value]="cazes" [scrollable]="true" [rows]="50" scrollHeight="250px" [virtualScroll]="true" [virtualRowHeight]="20">
+                <ng-template pTemplate="header">
                     <tr>
-                        <th *ngFor="let col of columns">
-                            {{col.header}}
-                        </th>
+                        <th pSortableColumn="Doctor">Doctor </th>
+                        <th pSortableColumn="Received">Received</th>
+                        <th pSortableColumn="Due">Due</th>
+                        <th pSortableColumn="Remake">Remake</th>
+                        <th pSortableColumn="Rush">Rush</th>
+                        <th pSortableColumn="PatientFullName">Patient</th>
+                        <th pSortableColumn="Type">Type</th>
+                        <th pSortableColumn="Shade">Shade</th>
                     </tr>
                 </ng-template>
-                <ng-template pTemplate="body" let-rowData let-columns="columns">
+                <ng-template pTemplate="body" let-c>
                     <tr style="height:34px">
-                        <td *ngFor="let col of columns">
-                            {{rowData[col.field]}}
-                        </td>
+                        <td>{{c.DoctorName}}</td>
+                        <td>{{c.ReceiveDate | date}}</td>
+                        <td>{{c.DueDate | date}}</td>
+                        <td>{{c.Remake}}</td>
+                        <td>{{c.Rush}}</td>
+                        <td>{{c.PatientFullName}}</td>
+                        <td>{{c.TType}}</td>
+                        <td>{{c.Shade}}</td>
                     </tr>
                 </ng-template>
-            </p-table> -->
+            </p-table>
         </p-card>
     </div>
     <div class="p-col-6">
-        <p-card header="Outgoing Cases">
-            Content
+        <p-card header="Rush Cases">
+            <p-table [value]="rushCazes" [scrollable]="true" [rows]="50" scrollHeight="250px" [virtualScroll]="true" [virtualRowHeight]="20">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th pSortableColumn="Doctor">Doctor </th>
+                        <th pSortableColumn="Received">Received</th>
+                        <th pSortableColumn="Due">Due</th>
+                        <th pSortableColumn="Remake">Remake</th>
+                        <th pSortableColumn="Rush">Rush</th>
+                        <th pSortableColumn="PatientFullName">Patient</th>
+                        <th pSortableColumn="Type">Type</th>
+                        <th pSortableColumn="Shade">Shade</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-rc>
+                    <tr style="height:34px">
+                        <td>{{rc.DoctorName}}</td>
+                        <td>{{rc.ReceiveDate | date}}</td>
+                        <td>{{rc.DueDate | date}}</td>
+                        <td>{{rc.Remake}}</td>
+                        <td>{{rc.Rush}}</td>
+                        <td>{{rc.PatientFullName}}</td>
+                        <td>{{rc.TType}}</td>
+                        <td>{{rc.Shade}}</td>
+                    </tr>
+                </ng-template>
+            </p-table>
         </p-card>            
     </div>
 </div>
@@ -38,12 +72,62 @@
 <div class="p-grid">
     <div class="p-col-6">
         <p-card header="New Cases">
-            Content
+            <p-table [value]="cazes" [scrollable]="true" [rows]="50" scrollHeight="250px" [virtualScroll]="true" [virtualRowHeight]="20">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th pSortableColumn="Doctor">Doctor </th>
+                        <th pSortableColumn="Received">Received</th>
+                        <th pSortableColumn="Due">Due</th>
+                        <th pSortableColumn="Remake">Remake</th>
+                        <th pSortableColumn="Rush">Rush</th>
+                        <th pSortableColumn="PatientFullName">Patient</th>
+                        <th pSortableColumn="Type">Type</th>
+                        <th pSortableColumn="Shade">Shade</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-c>
+                    <tr style="height:34px">
+                        <td>{{c.DoctorName}}</td>
+                        <td>{{c.ReceiveDate | date}}</td>
+                        <td>{{c.DueDate | date}}</td>
+                        <td>{{c.Remake}}</td>
+                        <td>{{c.Rush}}</td>
+                        <td>{{c.PatientFullName}}</td>
+                        <td>{{c.TType}}</td>
+                        <td>{{c.Shade}}</td>
+                    </tr>
+                </ng-template>
+            </p-table>
         </p-card>            
     </div>
     <div class="p-col-6">
-        <p-card header="Rush Cases">
-            Content
+        <p-card header="Outgoing Cases">
+            <p-table [value]="cazes" [scrollable]="true" [rows]="50" scrollHeight="250px" [virtualScroll]="true" [virtualRowHeight]="20">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th pSortableColumn="Doctor">Doctor </th>
+                        <th pSortableColumn="Received">Received</th>
+                        <th pSortableColumn="Due">Due</th>
+                        <th pSortableColumn="Remake">Remake</th>
+                        <th pSortableColumn="Rush">Rush</th>
+                        <th pSortableColumn="PatientFullName">Patient</th>
+                        <th pSortableColumn="Type">Type</th>
+                        <th pSortableColumn="Shade">Shade</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-c>
+                    <tr style="height:34px">
+                        <td>{{c.DoctorName}}</td>
+                        <td>{{c.ReceiveDate | date}}</td>
+                        <td>{{c.DueDate | date}}</td>
+                        <td>{{c.Remake}}</td>
+                        <td>{{c.Rush}}</td>
+                        <td>{{c.PatientFullName}}</td>
+                        <td>{{c.TType}}</td>
+                        <td>{{c.Shade}}</td>
+                    </tr>
+                </ng-template>
+            </p-table>
         </p-card>            
     </div>
 </div>
