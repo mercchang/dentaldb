@@ -1,4 +1,3 @@
-import { BindingScope } from '@angular/compiler/src/render3/view/template';
 import { Component, OnInit } from '@angular/core';
 import { Caze } from 'src/app/core/models/caze.model';
 import { CazeService } from 'src/app/core/services/Caze.service';
@@ -15,9 +14,10 @@ export class DashboardComponent implements OnInit {
   newCazes: Caze[] = [];
   outCazes: Caze[] = [];
 
-  currentDate: Date;
+  currentDate = new Date;
   weekDate: Date;
   newDate: Date;
+  dateString: String;
 
   constructor(private cazeService: CazeService) { }
 
@@ -28,15 +28,21 @@ export class DashboardComponent implements OnInit {
   getCazes(){
     this.cazeService.getCazes().toPromise().then((c:Caze[]) => {
       this.cazes = c;
+      console.log(this.currentDate);
+
       for(let i=0;i < this.cazes.length; i++)
       {
         if(c[i].Rush == true)
           this.rushCazes.push(c[i]);
 
-        // if(c[i].ReceiveDate < )
-        // this.rushCazes.push(c[i]);
+        //this.dateString = this.datePipe.transform(this.currentDate, 'yyyy-MM-dd');
+
+        if(c[i].ReceiveDate < this.currentDate)
+        {
+          this.weekCazes.push(c[i]);
+          console.log(true);
+        }
       }
     })
   }
-
 }

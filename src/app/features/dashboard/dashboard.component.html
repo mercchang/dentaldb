@@ -1,7 +1,7 @@
 <div class="p-grid">
     <div class="p-col-6">
         <p-card header="Cases Due This Week">
-            <p-table [value]="cazes" [scrollable]="true" [rows]="50" scrollHeight="250px" [virtualScroll]="true" [virtualRowHeight]="20">
+            <p-table [value]="weekCazes" [scrollable]="true" [rows]="50" scrollHeight="250px" [virtualScroll]="true" [virtualRowHeight]="20">
                 <ng-template pTemplate="header">
                     <tr>
                         <th pSortableColumn="Doctor">Doctor </th>
