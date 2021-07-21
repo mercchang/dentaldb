@@ -15,6 +15,7 @@ import { PatientsComponent } from './features/patients/patients.component';
 import { ContentComponent } from './features/content/content.component';
 import { ConfirmationService } from 'primeng/api';
 import { CazesComponent } from './features/cazes/cazes.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { CazesComponent } from './features/cazes/cazes.component';
     AppRoutingModule,
     PrimeNGModule,
     HttpClientModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    FormsModule
   ],
   providers: [{provide: APP_BASE_HREF, useValue : '/' }, ConfirmationService],
   bootstrap: [AppComponent]

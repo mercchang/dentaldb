@@ -38,9 +38,7 @@
                                 <td>{{c.TType}}</td>
                                 <td>{{c.Shade}}</td>
                                 <td>
-                                    <form [formGroup]="cazeForm" (ngSubmit)="changeStatus(c)">
-                                        <p-toggleButton onLabel="Complete" offLabel="Incomplete" formControlName="Status" (onChange)="changeStatus(c)"></p-toggleButton>
-                                    </form>
+                                    <p-toggleButton onLabel="Complete" offLabel="Incomplete" [(ngModel)]="c.Status" (onClick)="changeStatus(c)"></p-toggleButton>
                                 </td>
                                 <td>
                                     <button pButton type="button" class="p-button-warning" icon="pi pi-pencil" (click)="editCaze(c)"></button>

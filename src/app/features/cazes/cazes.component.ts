@@ -63,8 +63,8 @@ export class CazesComponent implements OnInit {
     this.cazeForm = new FormGroup({
       CazeId: new FormControl(id),
       DoctorId: new FormControl(doctorId, [Validators.required]),
-      ReceiveDate: new FormControl(receiveDate, [Validators.required]),
-      DueDate: new FormControl(dueDate, [Validators.required]),
+      // ReceiveDate: new FormControl(receiveDate, [Validators.required]),
+      // DueDate: new FormControl(dueDate, [Validators.required]),
       Price: new FormControl(price, [Validators.required]),
       Remake: new FormControl(remake, [Validators.required]),
       Rush: new FormControl(rush, [Validators.required]),
@@ -105,10 +105,10 @@ export class CazesComponent implements OnInit {
         }
       })
     ]).subscribe(results => {
-      let newCaze = new Caze(this.cazeForm.value.DoctorId, this.cazeForm.value.ReceiveDate, this.cazeForm.value.DueDate, 
+      let newCaze = new Caze(null, this.cazeForm.value.DoctorId, this.cazeForm.value.ReceiveDate, this.cazeForm.value.DueDate, 
         this.price, this.cazeForm.value.Remake, this.cazeForm.value.Rush, this.docName, this.cazeForm.value.PatientFirstName, this.cazeForm.value.PatientLastName,
         this.cazeForm.value.PatientFullName, this.cazeForm.value.PatientAddress, this.cazeForm.value.PatientPhone, this.cazeForm.value.Tooth, 
-        this.cazeForm.value.Shade.toUpperCase(), this.cazeForm.value.TType, this.cazeForm.value.Status = false);
+        this.cazeForm.value.Shade.toUpperCase(), this.cazeForm.value.TType, this.cazeForm.value.Status);
 
         newCaze.Status = false;
       this.cazeService.createCaze(newCaze).toPromise().then(c =>{
@@ -135,6 +135,7 @@ export class CazesComponent implements OnInit {
   getCazes(){
     this.cazeService.getCazes().toPromise().then((c:Caze[]) => {
       this.cazes = c;
+      console.log(this.cazes)
     })
   }
 
@@ -144,36 +145,44 @@ export class CazesComponent implements OnInit {
   }
 
   editCaze(c:Caze){
-    this.editFormGroup(c.CazeId, c.DoctorId, c.ReceiveDate.toDateString, c.DueDate.toDateString, c.Price, c.Remake, c.Rush, 
+    console.log(c)
+    this.editFormGroup(c.CazeId, c.DoctorId, c.ReceiveDate, c.DueDate.toDateString, c.Price, c.Remake, c.Rush, 
       c.DoctorName, c.PatientFirstName, c.PatientLastName, c.PatientFullName, 
       c.PatientAddress, c.PatientPhone, c.Tooth, c.Shade, c.TType, c.Status);
     this.displayEdit = true;
   }
 
   changeStatus(c:Caze){
-    let s: Boolean = c.Status;
+    console.log("c = " + c);
+    console.log(c.Status);
 
-    switch(s) {
-      case true:
-        s = false;
-        break;
-      case false:
-        s = true;
-        break;
-      default:
-        s = false;
-        break;
-    }
+    // switch(c.Status) {
+    //   case true:
+    //     c.Status = false;
+    //     break;
+    //   case false:
+    //     c.Status = true;
+    //     break;
+    //   default:
+    //     c.Status = false;
+    //     break;
+    // }
 
-    this.editFormGroup(c.CazeId, c.DoctorId, c.ReceiveDate.toDateString, c.DueDate.toDateString, c.Price, c.Remake, c.Rush, 
-      c.DoctorName, c.PatientFirstName, c.PatientLastName, c.PatientFullName, 
-      c.PatientAddress, c.PatientPhone, c.Tooth, c.Shade, c.TType, s);
+    c.Status = !c.Status;
+    console.log(c.Status);
+    // this.editFormGroup(c.CazeId, c.DoctorId, c.ReceiveDate, c.DueDate.toDateString, c.Price, c.Remake, c.Rush, 
+    //   c.DoctorName, c.PatientFirstName, c.PatientLastName, c.PatientFullName, 
+    //   c.PatientAddress, c.PatientPhone, c.Tooth, c.Shade, c.TType, c.Status);
 
-    this.updateCaze();
-    this.getCazes();
+      // this.cazeForm.controls.Status.setValue(c.Status);
+
+      
+    this.updateCaze(c);
+    
+    //console.log("test");
   }
 
-  updateCaze(){
+  updateCaze(caze?){
     forkJoin([
       this.toothTypeService.getTypes().toPromise().then((t:ToothType[]) => {
         this.types = t;
@@ -196,14 +205,26 @@ export class CazesComponent implements OnInit {
         }
       })
     ]).subscribe(results => {
-      let updatedCaze = new Caze(this.cazeForm.value.DoctorId, this.cazeForm.value.ReceiveDate, this.cazeForm.value.DueDate, 
+      var updatedCaze;
+      if(caze)
+      {
+        updatedCaze = new Caze(caze.CazeId, caze.DoctorId, caze.ReceiveDate, caze.DueDate, 
+          caze.price, caze.Remake, caze.Rush, caze.docName, caze.PatientFirstName, caze.PatientLastName,
+          caze.PatientFullName, caze.PatientAddress, caze.PatientPhone, caze.Tooth, 
+          caze.Shade.toUpperCase(), caze.TType, caze.Status);
+      }
+      else{
+        updatedCaze = new Caze(this.cazeForm.value.CazeId ,this.cazeForm.value.DoctorId, this.cazeForm.value.ReceiveDate, this.cazeForm.value.DueDate, 
         this.price, this.cazeForm.value.Remake, this.cazeForm.value.Rush, this.docName, this.cazeForm.value.PatientFirstName, this.cazeForm.value.PatientLastName,
         this.cazeForm.value.PatientFullName, this.cazeForm.value.PatientAddress, this.cazeForm.value.PatientPhone, this.cazeForm.value.Tooth, 
         this.cazeForm.value.Shade.toUpperCase(), this.cazeForm.value.TType, this.cazeForm.value.Status);
-
+      }
+      
       updatedCaze.PatientFullName = updatedCaze.PatientLastName + ", " + updatedCaze.PatientFirstName;
-      this.cazeService.editCaze(this.cazeForm.value.CazeId, updatedCaze).toPromise().then(c =>{
-      console.log(this.cazeForm.value.CazeId);
+
+      console.log(updatedCaze);
+      this.cazeService.editCaze(this.cazeForm.value.CazeId ? this.cazeForm.value.CazeId:updatedCaze.CazeId, updatedCaze).toPromise().then(c =>{
+      
       this.cazeForm.reset();
       this.displayEdit = false;
       this.getCazes();
