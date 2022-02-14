@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "cdlab-5e94f": {
+      "hosting": {
+        "dentaldb": [
+          "cdlab-5e94f"
+        ]
+      }
+    }
+  }
+}

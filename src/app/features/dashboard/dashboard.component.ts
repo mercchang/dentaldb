@@ -28,6 +28,7 @@ export class DashboardComponent implements OnInit {
   getCazes(){
     this.cazeService.getCazes().toPromise().then((c:Caze[]) => {
       this.cazes = c;
+      // this.weekDate = this.currentDate - 7;
       console.log(this.currentDate);
 
       for(let i=0;i < this.cazes.length; i++)
@@ -38,7 +39,7 @@ export class DashboardComponent implements OnInit {
         //this.dateString = this.datePipe.transform(this.currentDate, 'yyyy-MM-dd');
 
         console.log("receive date" + c[i].ReceiveDate);
-        console.log(typeof c[i].ReceiveDate)
+        console.log(typeof c[i].ReceiveDate);
         console.log("current date" + this.currentDate);
 
         var receiveDate = new Date(c[i].ReceiveDate);
@@ -49,6 +50,7 @@ export class DashboardComponent implements OnInit {
           console.log(true);
         }
       }
+      console.log(this.weekCazes);
     })
   }
 }

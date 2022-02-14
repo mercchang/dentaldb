@@ -4,7 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { PrimeNGModule } from '../app/PrimeNG.module'
 import { HttpClientModule } from '@angular/common/http';
-
+import { AngularFireModule } from '@angular/fire';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { DashboardComponent } from './features/dashboard/dashboard.component';
@@ -16,6 +16,7 @@ import { ContentComponent } from './features/content/content.component';
 import { ConfirmationService } from 'primeng/api';
 import { CazesComponent } from './features/cazes/cazes.component';
 import { FormsModule } from '@angular/forms';
+import { environment } from 'src/environments/environment';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { FormsModule } from '@angular/forms';
     PrimeNGModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    FormsModule
+    FormsModule,
+    AngularFireModule.initializeApp(environment.firebase)
   ],
   providers: [{provide: APP_BASE_HREF, useValue : '/' }, ConfirmationService],
   bootstrap: [AppComponent]

@@ -14,16 +14,16 @@
                         <th pSortableColumn="Shade">Shade</th>
                     </tr>
                 </ng-template>
-                <ng-template pTemplate="body" let-c>
+                <ng-template pTemplate="body" let-wc>
                     <tr style="height:34px">
-                        <td>{{c.DoctorName}}</td>
-                        <td>{{c.ReceiveDate | date}}</td>
-                        <td>{{c.DueDate | date}}</td>
-                        <td>{{c.Remake}}</td>
-                        <td>{{c.Rush}}</td>
-                        <td>{{c.PatientFullName}}</td>
-                        <td>{{c.TType}}</td>
-                        <td>{{c.Shade}}</td>
+                        <td>{{wc.DoctorName}}</td>
+                        <td>{{wc.ReceiveDate | date}}</td>
+                        <td>{{wc.DueDate | date}}</td>
+                        <td>{{wc.Remake}}</td>
+                        <td>{{wc.Rush}}</td>
+                        <td>{{wc.PatientFullName}}</td>
+                        <td>{{wc.TType}}</td>
+                        <td>{{wc.Shade}}</td>
                     </tr>
                 </ng-template>
             </p-table>

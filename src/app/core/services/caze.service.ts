@@ -1,12 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { environment } from 'src/environments/environment';
 import { Caze } from '../models/caze.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CazeService {
-  apiUrl = "https://localhost:44365/api/Caze/"
+  //apiUrl = "https://localhost:44365/api/Caze/"
+  apiUrl = environment.firebase.databaseURL + "/Caze/"
   constructor(private httpClient: HttpClient) { }
 
   getCazes(){
