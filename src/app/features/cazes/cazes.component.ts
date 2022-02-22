@@ -8,6 +8,7 @@ import { ToothType } from 'src/app/core/models/tooth-type.model';
 import { CazeService } from 'src/app/core/services/Caze.service';
 import { DoctorService } from 'src/app/core/services/doctor.service';
 import { ToothtypeService } from 'src/app/core/services/toothtype.service';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-Cazes',
@@ -18,6 +19,7 @@ export class CazesComponent implements OnInit {
   displayCreate: boolean = false;
   displayEdit: boolean = false;
   cazes: Caze[];
+  ddata: any;
   caze: Caze;
   lastName: string;
   docName: string;
@@ -131,10 +133,20 @@ export class CazesComponent implements OnInit {
   // }
 
   getCazes(){
-    this.cazeService.getCazes().toPromise().then((c:Caze[]) => {
-      this.cazes = c;
-      console.log(this.cazes)
-    })
+    // this.cazeService.getCazes().toPromise().then((c:Caze[]) => {
+    //   this.cazes = c;
+    //   console.log(this.cazes)
+    // })
+
+    this.cazeService.getCazes().subscribe(res => {
+      this.ddata = res.map( e => {
+        return {
+          id: e.payload.doc.id,
+          ...e.payload.doc.data() as {}
+        } as unknown as Caze;
+      })
+      console.log(this.ddata)
+    });
   }
 
   // createCaze(){

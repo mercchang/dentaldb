@@ -5,6 +5,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { PrimeNGModule } from '../app/PrimeNG.module'
 import { HttpClientModule } from '@angular/common/http';
 import { AngularFireModule } from '@angular/fire';
+import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { DashboardComponent } from './features/dashboard/dashboard.component';
@@ -36,7 +37,8 @@ import { environment } from 'src/environments/environment';
     HttpClientModule,
     BrowserAnimationsModule,
     FormsModule,
-    AngularFireModule.initializeApp(environment.firebase)
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFireDatabaseModule
   ],
   providers: [{provide: APP_BASE_HREF, useValue : '/' }, ConfirmationService],
   bootstrap: [AppComponent]

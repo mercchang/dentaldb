@@ -17,8 +17,8 @@ export class PatientsComponent implements OnInit {
   }
 
   getCazes(){
-    this.cazeService.getCazes().toPromise().then((c:Caze[]) => {
-      this.cases = c;
-    })
+    // this.cazeService.getCazes().toPromise().then((c:Caze[]) => {
+    //   this.cases = c;
+    // })
   }
 }

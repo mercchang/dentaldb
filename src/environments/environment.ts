@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  firebase: {
+  firebaseConfig: {
     apiKey: "AIzaSyDQfDnQHvWWGustqR9F05YyAhbj7u5MHIM",
     authDomain: "cdlab-5e94f.firebaseapp.com",
     databaseURL: "https://cdlab-5e94f-default-rtdb.firebaseio.com",
