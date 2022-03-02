@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ConfirmationService, MenuItem } from 'primeng/api';
 import { forkJoin } from 'rxjs';
 import { Caze } from 'src/app/core/models/caze.model';
@@ -19,8 +19,8 @@ export class CazesComponent implements OnInit {
   displayCreate: boolean = false;
   displayEdit: boolean = false;
   cazes: Caze[];
-  ddata: any;
   caze: Caze;
+  cazeNumber: number;
   lastName: string;
   docName: string;
   doctors: Doctor[];
@@ -30,35 +30,33 @@ export class CazesComponent implements OnInit {
   statusForm: FormGroup;
   price: string;
 
-  constructor(private cazeService: CazeService, private docService:DoctorService, private toothTypeService:ToothtypeService, private confirmationService: ConfirmationService) { }
+  constructor(private cazeService: CazeService, private docService:DoctorService, private toothTypeService:ToothtypeService, 
+    private confirmationService: ConfirmationService, private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
-    // this.getTypes();
-    // this.getDoctors();
+    this.getTypes();
+    this.getDoctors();
     this.getCazes();
-    // this.createFormGroup();
+    this.createFormGroup();
   }
 
-  // createFormGroup(){
-  //   this.cazeForm = new FormGroup({
-  //     DoctorId: new FormControl(null, [Validators.required]),
-  //     ReceiveDate: new FormControl(null, [Validators.required]),
-  //     DueDate : new FormControl(null, [Validators.required]),
-  //     Price: new FormControl(null, [Validators.required]),
-  //     Remake: new FormControl(null, [Validators.required]),
-  //     Rush: new FormControl(null, [Validators.required]),
-  //     DoctorName: new FormControl(null, [Validators.required]),
-  //     PatientFirstName: new FormControl(null, [Validators.required]),
-  //     PatientLastName: new FormControl(null, [Validators.required]),
-  //     PatientFullName: new FormControl(null, [Validators.required]),
-  //     PatientAddress: new FormControl(null, [Validators.required]),
-  //     PatientPhone: new FormControl(null, [Validators.required]),
-  //     Tooth: new FormControl(null, [Validators.required]),
-  //     Shade: new FormControl(null, [Validators.required]),
-  //     TType: new FormControl(null, [Validators.required]),
-  //     Status: new FormControl(null, [Validators.required])
-  //   })
-  // }
+  createFormGroup(){
+    this.cazeForm = this.formBuilder.group({
+      CazeNum: this.cazeNumber,
+      ReceiveDate: new FormControl(null, [Validators.required]),
+      DueDate : new FormControl(null, [Validators.required]),
+      Price: new FormControl(null, [Validators.required]),
+      Remake: new FormControl(null, [Validators.required]),
+      Rush: new FormControl(null, [Validators.required]),
+      DoctorName: new FormControl(null, [Validators.required]),
+      PatientFirstName: new FormControl(null, [Validators.required]),
+      PatientLastName: new FormControl(null, [Validators.required]),
+      Tooth: new FormControl(null, [Validators.required]),
+      Shade: new FormControl(null, [Validators.required]),
+      TType: new FormControl(null, [Validators.required]),
+      Status: new FormControl(null, [Validators.required])
+    })
+  }
 
   // editFormGroup(id, doctorId, receiveDate, dueDate, price, remake, rush, doctorName, firstName, lastName, fullName, address, phone, toothNum, shade, tType, status){
   //   this.cazeForm = new FormGroup({
@@ -82,77 +80,58 @@ export class CazesComponent implements OnInit {
   //   })
   // }
 
-  // saveNewCaze(){
-  //   forkJoin([
-  //     this.toothTypeService.getTypes().toPromise().then((t:ToothType[]) => {
-  //       this.types = t;
-  //       console.log(this.types);
-  //       for(let i = 0; i < this.types.length; i++)
-  //       {
-  //         if (this.types[i].Name == this.cazeForm.value.TType)
-  //         {
-  //           this.price = this.types[i].Price;
-  //         }
-  //       }
-  //     }),
-  //     this.docService.getDoctors().toPromise().then((d:Doctor[]) => {
-  //       this.doctors = d;
-  //       for(let i = 0; i < this.doctors.length; i++)
-  //       {
-  //         if (this.doctors[i].DoctorId == this.cazeForm.value.DoctorId)
-  //         {
-  //           this.docName = this.doctors[i].LastName;
-  //         }
-  //       }
-  //     })
-  //   ]).subscribe(results => {
-  //     let newCaze = new Caze(null, this.cazeForm.value.DoctorId, this.cazeForm.value.ReceiveDate, this.cazeForm.value.DueDate, 
-  //       this.price, this.cazeForm.value.Remake, this.cazeForm.value.Rush, this.docName, this.cazeForm.value.PatientFirstName, this.cazeForm.value.PatientLastName,
-  //       this.cazeForm.value.PatientFullName, this.cazeForm.value.PatientAddress, this.cazeForm.value.PatientPhone, this.cazeForm.value.Tooth, 
-  //       this.cazeForm.value.Shade.toUpperCase(), this.cazeForm.value.TType, this.cazeForm.value.Status);
+  saveNewCaze(){
+    this.cazeService.createCaze(this.cazeForm.value);
+    this.displayCreate = false;
+  }
 
-  //       newCaze.Status = false;
-  //     this.cazeService.createCaze(newCaze).toPromise().then(c =>{
-  //       this.displayCreate = false;
-  //       this.cazeForm.reset();
-  //       this.getCazes();
-  //     })
-  //   })
-  // }
+  getDoctors(){
+    this.docService.getDoctors().subscribe(res => {
+      this.doctors = res.map( e => {
+        return {
+          id: e.payload.doc.id,
+          ...e.payload.doc.data() as {}
+        } as unknown as Doctor;
+      })
+    });
+  }
 
-  // getDoctors(){
-  //   this.docService.getDoctors().toPromise().then((d:Doctor[]) => {
-  //     this.doctors = d;
-  //   })
-  // }
-
-  // getTypes(){
-  //   this.toothTypeService.getTypes().toPromise().then((t:ToothType[]) => {
-  //     this.types = t;
-  //   })
-  // }
+  getTypes(){
+    this.toothTypeService.getTypes().subscribe(res => {
+      this.types = res.map( e => {
+        return {
+          id: e.payload.doc.id,
+          ...e.payload.doc.data() as {}
+        } as unknown as ToothType;
+      })
+    });
+  }
 
   getCazes(){
-    // this.cazeService.getCazes().toPromise().then((c:Caze[]) => {
-    //   this.cazes = c;
-    //   console.log(this.cazes)
-    // })
-
     this.cazeService.getCazes().subscribe(res => {
-      this.ddata = res.map( e => {
+      this.cazes = res.map( e => {
         return {
           id: e.payload.doc.id,
           ...e.payload.doc.data() as {}
         } as unknown as Caze;
       })
-      console.log(this.ddata)
+      // find max case number
+      this.cazeNumber = 0;
+      for (let i = 0; i < this.cazes.length; i++) {
+        if (this.cazes[i].CazeNum > this.cazeNumber) {
+          this.cazeNumber = this.cazes[i].CazeNum;
+        }
+      }
+      // assign newest case number
+      this.cazeNumber += 1;
+      console.log(this.cazeNumber)
     });
   }
 
-  // createCaze(){
-  //   this.createFormGroup();
-  //   this.displayCreate = true;
-  // }
+  createCaze(){
+    this.createFormGroup();
+    this.displayCreate = true;
+  }
 
   // editCaze(c:Caze){
   //   console.log(c)
@@ -162,13 +141,11 @@ export class CazesComponent implements OnInit {
   //   this.displayEdit = true;
   // }
 
-  // changeStatus(c:Caze){
-  //   c.Status = !c.Status;
-  //   console.log(c.Status);
-  //   // this.cazeForm.controls.Status.setValue(c.Status);
-
-  //   this.updateCaze(c);
-  // }
+  changeStatus(c:Caze){
+    c.Status = !c.Status;
+    console.log(c.Status);
+    //this.updateCaze(c);
+  }
 
   // updateCaze(caze?){
   //   forkJoin([
@@ -216,29 +193,34 @@ export class CazesComponent implements OnInit {
   //   })
   // }
 
-  // cancelCreate(){
-  //   this.cazeForm.reset();
-  //   this.displayCreate = false;
-  // }
+  cancelCreate(){
+    this.cazeForm.reset();
+    this.displayCreate = false;
+  }
 
   // cancelEdit(){
   //   this.cazeForm.reset();
   //   this.displayEdit = false;
   // }
 
-  // deleteCaze(id:number){
-  //   this.confirmationService.confirm({
-  //     message: 'Are you sure you want to delete this Caze?',
-  //     accept: () => {
-  //       //delete patient and tooth as well
-  //       this.cazeService.deleteCaze(id).toPromise().then(t => {
-  //         this.getCazes();
-  //       })
-  //     },
-  //     reject: () => {
+  deleteCaze(c:Caze){
+    // this.confirmationService.confirm({
+    //   message: 'Are you sure you want to delete this Caze?',
+    //   accept: () => {
+    //     //delete patient and tooth as well
+    //     this.cazeService.deleteCaze(id).toPromise().then(t => {
+    //       this.getCazes();
+    //     })
+    //   },
+    //   reject: () => {
 
-  //     }
-  //   });
-  // }
+    //   }
+    // });
+
+    if(confirm("Are you sure you want to delete this Caze for patient " + c.PatientFullName + "?")) {
+      this.cazeService.deleteCaze(c)
+    }
+
+  }
 
 }

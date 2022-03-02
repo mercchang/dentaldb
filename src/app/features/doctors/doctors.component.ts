@@ -54,9 +54,15 @@ export class DoctorsComponent implements OnInit {
   }
 
   getDoctors(){
-    this.docService.getDoctors().toPromise().then((d:Doctor[]) => {
-      this.doctors = d;
-    })
+    this.docService.getDoctors().subscribe(res => {
+      this.doctors = res.map( e => {
+        return {
+          id: e.payload.doc.id,
+          ...e.payload.doc.data() as {}
+        } as unknown as Doctor;
+      })
+      console.log(this.doctors)
+    });
   }
 
   createDoctor(){

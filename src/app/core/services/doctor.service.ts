@@ -1,16 +1,20 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { AngularFirestore } from '@angular/fire/firestore';
+import { environment } from 'src/environments/environment';
 import { Doctor } from '../models/doctor.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DoctorService {
-  apiUrl = "https://localhost:44365/api/Doctor/"
-  constructor(private httpClient: HttpClient) { }
+  //apiUrl = "https://localhost:44365/api/Doctor/"
+  apiUrl = environment.firebaseConfig.databaseURL + "/Doctor/"
+  constructor(private httpClient: HttpClient, private angularFirestore: AngularFirestore) { }
 
   getDoctors(){
-    return this.httpClient.get<Doctor[]>(this.apiUrl);
+    //return this.httpClient.get<Doctor[]>(this.apiUrl);
+    return this.angularFirestore.collection('Doctors').snapshotChanges();
   }
 
   getDoctor(id:number){

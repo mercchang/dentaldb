@@ -2,7 +2,7 @@
     <div class="p-col">
         <div class="p-grid">
             <div class="p-col">
-                <!-- <button pButton type="button" label="New Case" (click)="createCaze()"></button> -->
+                <button pButton type="button" label="New Case" (click)="createCaze()"></button>
             </div>
         </div>
         <div class="p-grid">
@@ -11,14 +11,14 @@
                     <p-table [value]="cazes">
                         <ng-template pTemplate="header">
                             <tr>
-                                <th pSortableColumn="CazeId">Id</th>
-                                <th pSortableColumn="Doctor">Doctor </th>
+                                <th pSortableColumn="CazeNum">Case Number</th>
+                                <th pSortableColumn="Doctor">Doctor</th>
                                 <th pSortableColumn="Received">Received</th>
                                 <th pSortableColumn="Due">Due</th>
                                 <th pSortableColumn="Price">Price</th>
                                 <th pSortableColumn="Remake">Remake</th>
                                 <th pSortableColumn="Rush">Rush</th>
-                                <th pSortableColumn="PatientFullName">Patient</th>
+                                <th pSortableColumn="PatientLastName">Patient</th>
                                 <th pSortableColumn="Type">Type</th>
                                 <th pSortableColumn="Shade">Shade</th>
                                 <th pSortableColumn="Status">Status</th>
@@ -27,23 +27,23 @@
                         </ng-template>
                         <ng-template pTemplate="body" let-c>
                             <tr>
-                                <td>{{c.CazeId}}</td>
+                                <td>{{c.CazeNum}}</td>
                                 <td>{{c.DoctorName}}</td>
-                                <td>{{c.ReceiveDate | date}}</td>
-                                <td>{{c.DueDate | date}}</td>
+                                <td>{{c.ReceiveDate}}</td>
+                                <td>{{c.DueDate}}</td>
                                 <td>{{c.Price | currency: 'USD'}}</td>
                                 <td>{{c.Remake}}</td>
                                 <td>{{c.Rush}}</td>
-                                <td>{{c.PatientFullName}}</td>
+                                <td>{{c.PatientLastName}}, {{c.PatientFirstName}}</td>
                                 <td>{{c.TType}}</td>
                                 <td>{{c.Shade}}</td>
-                                <!-- <td>
+                                <td>
                                     <p-toggleButton onLabel="Complete" offLabel="Incomplete" [(ngModel)]="c.Status" (onClick)="changeStatus(c)"></p-toggleButton>
                                 </td>
                                 <td>
                                     <button pButton type="button" class="p-button-warning" icon="pi pi-pencil" (click)="editCaze(c)"></button>
-                                    <button pButton type="button" class="p-button-danger" icon="pi pi-times" (click)="deleteCaze(c.CazeId)"></button>
-                                </td> -->
+                                    <button pButton type="button" class="p-button-danger" icon="pi pi-times" (click)="deleteCaze(c)"></button>
+                                </td>
                             </tr>
                         </ng-template>
                     </p-table>
@@ -54,14 +54,14 @@
 </div>
 
 <!-- CREATE -->
-<!-- <p-dialog header="Create New Caze" [(visible)]="displayCreate" (onHide)="cancelCreate()" [style]="{'width': '60vw', 'height': '30vw'}">
+<p-dialog header="Create New Caze" [(visible)]="displayCreate" (onHide)="cancelCreate()" [style]="{'width': '60vw', 'height': '30vw'}">
     <form [formGroup]="cazeForm" (ngSubmit)="saveNewCaze()">
         <div class="p-grid">
             <div class="p-col">
                 <div class="p-fluid">
                     <div class="p-field">
                         <label for="DoctorId" class="p-mr-2">Select Doctor</label>
-                        <p-dropdown [options]="doctors" placeholder="Select a Doctor" optionLabel="LastName" formControlName="DoctorId" optionValue="DoctorId"></p-dropdown>
+                        <p-dropdown [options]="doctors" placeholder="Select a Doctor" optionLabel="LastName" formControlName="DoctorName" optionValue="LastName"></p-dropdown>
                     </div>
                     <div class="p-field">
                         <label for="ReceiveDate" class="p-mr-2">Receive Date</label>
@@ -107,18 +107,6 @@
                     </div>
                 </div>
             </div>
-            <div class="p-col">
-                <div class="p-fluid">
-                    <div class="p-field">
-                        <label for="PatientAddress" class="p-mr-2">Address</label>
-                        <input id="PatientAddress" type="Text" pInputText formControlName="PatientAddress" [style]="{'width': '100%'}">
-                    </div>
-                    <div class="p-field">
-                        <label for="PatientPhone" class="p-mr-2">Phone</label>
-                        <input id="PatientPhone" type="Text" pInputText formControlName="PatientPhone" [style]="{'width': '100%'}">
-                    </div>
-                </div>
-            </div>
         </div>
 
         <p-divider align="left">
@@ -134,6 +122,10 @@
                     <div class="p-field">
                         <label for="TType" class="p-mr-2">Tooth Type</label>
                         <p-dropdown [options]="types" placeholder="Select a Type" optionLabel="Name" formControlName="TType" optionValue="Name"></p-dropdown>
+                    </div>
+                    <div class="p-field">
+                        <label for="Price" class="p-mr-2">Price</label>
+                        <p-dropdown [options]="types" placeholder="Select a Type" optionLabel="Price" formControlName="Price" optionValue="Price"></p-dropdown>
                     </div>
                     <div class="p-field">
                         <label for="Tooth" class="p-mr-2">Tooth Number</label>
@@ -160,7 +152,7 @@
             </div>
         </div>
     </form>
-</p-dialog> -->
+</p-dialog>
 
 <!-- EDIT -->
 <!-- <p-dialog header="Edit Caze" [(visible)]="displayEdit" (onHide)="cancelEdit()" [style]="{'width': '50vw'}">

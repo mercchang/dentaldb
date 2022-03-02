@@ -52,9 +52,15 @@ export class ToothTypesComponent implements OnInit {
   }
 
   getTypes(){
-    this.ttService.getTypes().toPromise().then((tt:ToothType[]) => {
-      this.toothTypes = tt;
-    })
+    this.ttService.getTypes().subscribe(res => {
+      this.toothTypes = res.map( e => {
+        return {
+          id: e.payload.doc.id,
+          ...e.payload.doc.data() as {}
+        } as unknown as ToothType;
+      })
+      console.log(this.toothTypes)
+    });
   }
 
   createType(){

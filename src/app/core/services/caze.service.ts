@@ -8,29 +8,46 @@ import { AngularFirestore } from '@angular/fire/firestore'
   providedIn: 'root'
 })
 export class CazeService {
-  //apiUrl = "https://localhost:44365/api/Caze/"
   apiUrl = environment.firebaseConfig.databaseURL + "/Caze/"
   constructor(private httpClient: HttpClient, private angularFirestore: AngularFirestore) { }
 
   getCazes(){
     return this.angularFirestore.collection('Cazes').snapshotChanges();
-    //return this.httpClient.get<Caze[]>(this.apiUrl);
   }
 
   getCaze(id:number){
     return this.angularFirestore.collection("Cazes").doc(id.toString()).valueChanges();
-    //return this.httpClient.get<Caze>(this.apiUrl + id);
   }
 
   createCaze(c:Caze){
-    return this.httpClient.post<Caze>(this.apiUrl, c);
+    return new Promise<any>((resolve, reject) => {
+      this.angularFirestore.collection("Cazes").add(c).then(response => {
+        console.log(response)
+      }, error => reject(error));
+    });
   }
 
   editCaze(id:number, editedCaze:Caze){
-    return this.httpClient.put<Caze>(this.apiUrl + id, editedCaze);
+    return this.angularFirestore.collection("Cazes").doc(id.toString()).update({
+      CazeNum: editedCaze.CazeNum,
+      DoctorId: editedCaze.DoctorId,
+      CreatedDate: editedCaze.CreatedDate,
+      ReceiveDate: editedCaze.ReceiveDate,
+      DueDate: editedCaze.DueDate,
+      Price: editedCaze.Price,
+      Remake: editedCaze.Remake,
+      Rush: editedCaze.Rush,
+      DoctorName: editedCaze.DoctorName,
+      PatientFirstName: editedCaze.PatientFirstName,
+      PatientLastName: editedCaze.PatientLastName,
+      Tooth: editedCaze.Tooth,
+      Shade: editedCaze.Shade,
+      TType: editedCaze.TType,
+      Status: editedCaze.Status
+    })
   }
 
-  deleteCaze(id:number){
-    return this.httpClient.delete<Caze>(this.apiUrl + id);
+  deleteCaze(c:Caze){
+    return this.angularFirestore.collection("Cazes").doc(c.id.toString()).delete();
   }
 }
