@@ -8,28 +8,33 @@ import { ToothType } from '../models/tooth-type.model';
   providedIn: 'root'
 })
 export class ToothtypeService {
-  //apiUrl = "https://localhost:44365/api/ToothType/"
-  apiUrl = environment.firebaseConfig.databaseURL + "/ToothType/"
   constructor(private httpClient: HttpClient, private angularFirestore: AngularFirestore) { }
 
   getTypes(){
-    //return this.httpClient.get<ToothType[]>(this.apiUrl);
     return this.angularFirestore.collection('ToothTypes').snapshotChanges();
   }
 
-  getToothType(id:number){
-    return this.httpClient.get<ToothType>(this.apiUrl + id);
+  getToothType(id){
+    return this.angularFirestore.collection("ToothTypes").doc(id).valueChanges();
   }
 
   createToothType(t:ToothType){
-    return this.httpClient.post<ToothType>(this.apiUrl, t);
+    return new Promise<any>((resolve, reject) => {
+      this.angularFirestore.collection("ToothTypes").add(t).then(response => {
+        console.log(response)
+      }, error => reject(error));
+    });
   }
 
-  editToothType(id:number, editedToothType:ToothType){
-    return this.httpClient.put<ToothType>(this.apiUrl + id, editedToothType);
+  editToothType(editedToothType:ToothType, id:string){
+    return this.angularFirestore.collection("ToothTypes").doc(id).update({
+      Name: editedToothType.Name,
+      Price: editedToothType.Price,
+      Description: editedToothType.Description
+    })
   }
 
-  deleteToothType(id:number){
-    return this.httpClient.delete<ToothType>(this.apiUrl + id);
+  deleteToothType(tt:ToothType){
+    return this.angularFirestore.collection("ToothTypes").doc(tt.id).delete();
   }
 }

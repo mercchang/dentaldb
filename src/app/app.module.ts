@@ -14,7 +14,7 @@ import { ToothTypesComponent } from './features/tooth-types/tooth-types.componen
 import { SideMenuComponent } from './layout/side-menu/side-menu.component';
 import { PatientsComponent } from './features/patients/patients.component';
 import { ContentComponent } from './features/content/content.component';
-import { ConfirmationService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { CazesComponent } from './features/cazes/cazes.component';
 import { FormsModule } from '@angular/forms';
 import { environment } from 'src/environments/environment';
@@ -40,7 +40,7 @@ import { environment } from 'src/environments/environment';
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireDatabaseModule
   ],
-  providers: [{provide: APP_BASE_HREF, useValue : '/' }, ConfirmationService],
+  providers: [{provide: APP_BASE_HREF, useValue : '/' }, ConfirmationService, MessageService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

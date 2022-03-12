@@ -8,15 +8,15 @@ import { AngularFirestore } from '@angular/fire/firestore'
   providedIn: 'root'
 })
 export class CazeService {
-  apiUrl = environment.firebaseConfig.databaseURL + "/Caze/"
-  constructor(private httpClient: HttpClient, private angularFirestore: AngularFirestore) { }
+  //apiUrl = environment.firebaseConfig.databaseURL + "/Caze/"
+  constructor(private angularFirestore: AngularFirestore) { }
 
   getCazes(){
     return this.angularFirestore.collection('Cazes').snapshotChanges();
   }
 
-  getCaze(id:number){
-    return this.angularFirestore.collection("Cazes").doc(id.toString()).valueChanges();
+  getCaze(id){
+    return this.angularFirestore.collection("Cazes").doc(id).valueChanges();
   }
 
   createCaze(c:Caze){
@@ -27,11 +27,10 @@ export class CazeService {
     });
   }
 
-  editCaze(id:number, editedCaze:Caze){
-    return this.angularFirestore.collection("Cazes").doc(id.toString()).update({
+  editCaze(editedCaze:Caze, id:string){
+    return this.angularFirestore.collection("Cazes").doc(id).update({
       CazeNum: editedCaze.CazeNum,
-      DoctorId: editedCaze.DoctorId,
-      CreatedDate: editedCaze.CreatedDate,
+      ToothTypeId: editedCaze.ToothTypeId,
       ReceiveDate: editedCaze.ReceiveDate,
       DueDate: editedCaze.DueDate,
       Price: editedCaze.Price,
@@ -48,6 +47,6 @@ export class CazeService {
   }
 
   deleteCaze(c:Caze){
-    return this.angularFirestore.collection("Cazes").doc(c.id.toString()).delete();
+    return this.angularFirestore.collection("Cazes").doc(c.id).delete();
   }
 }

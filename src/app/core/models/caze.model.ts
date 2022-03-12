@@ -4,6 +4,7 @@ export class Caze{
     id: string;
     CazeNum: number;
     DoctorId: number;
+    ToothTypeId: number;
     CreatedDate: Date;
     ReceiveDate: Date;
     DueDate: Date;
@@ -16,16 +17,15 @@ export class Caze{
     PatientFullName: string;
     Tooth: number;
     Shade: string;
-    TType: string;
-    Status: boolean;
+    TType: number;
+    Status: string;
 
     Doctor: Doctor;
 
-    constructor(id, CazeNum, DoctorId, ReceiveDate, DueDate, Price, Remake, Rush, DoctorName, 
+    constructor(CazeNum, ToothTypeId, ReceiveDate, DueDate, Price, Remake, Rush, DoctorName, 
         PatientFirstName, PatientLastName, Tooth, Shade, TType, Status){
-            this.id = id;
             this.CazeNum = CazeNum;
-            this.DoctorId = DoctorId;
+            this.ToothTypeId = ToothTypeId;
             this.ReceiveDate = ReceiveDate;
             this.DueDate = DueDate;
             this.Price = Price;

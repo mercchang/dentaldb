@@ -29,17 +29,19 @@
                             <tr>
                                 <td>{{c.CazeNum}}</td>
                                 <td>{{c.DoctorName}}</td>
-                                <td>{{c.ReceiveDate}}</td>
-                                <td>{{c.DueDate}}</td>
+                                <td>{{c.ReceiveDate.toDate().toString() | date :'fullDate'}}</td>
+                                <td>{{c.DueDate.toDate().toString()| date :'fullDate'}}</td>
                                 <td>{{c.Price | currency: 'USD'}}</td>
-                                <td>{{c.Remake}}</td>
-                                <td>{{c.Rush}}</td>
+                                <td>
+                                    <i class="pi pi-check" *ngIf="c.Remake"></i>
+                                </td>
+                                <td>
+                                    <i class="pi pi-check" *ngIf="c.Rush"></i>
+                                </td>
                                 <td>{{c.PatientLastName}}, {{c.PatientFirstName}}</td>
                                 <td>{{c.TType}}</td>
                                 <td>{{c.Shade}}</td>
-                                <td>
-                                    <p-toggleButton onLabel="Complete" offLabel="Incomplete" [(ngModel)]="c.Status" (onClick)="changeStatus(c)"></p-toggleButton>
-                                </td>
+                                <td>{{c.Status}}</td>
                                 <td>
                                     <button pButton type="button" class="p-button-warning" icon="pi pi-pencil" (click)="editCaze(c)"></button>
                                     <button pButton type="button" class="p-button-danger" icon="pi pi-times" (click)="deleteCaze(c)"></button>
@@ -54,15 +56,45 @@
 </div>
 
 <!-- CREATE -->
-<p-dialog header="Create New Caze" [(visible)]="displayCreate" (onHide)="cancelCreate()" [style]="{'width': '60vw', 'height': '30vw'}">
+<p-dialog header="Create New Case" [(visible)]="displayCreate" (onHide)="cancelCreate()" [style]="{'width': '60vw', 'height': '46vw'}">
     <form [formGroup]="cazeForm" (ngSubmit)="saveNewCaze()">
         <div class="p-grid">
             <div class="p-col">
+                <p-divider align="left">
+                    <div class="p-d-inline-flex p-ai-center">
+                        <i class="pi pi-user p-mr-2"></i>
+                        <b>Doctor</b>
+                    </div>
+                </p-divider>
                 <div class="p-fluid">
                     <div class="p-field">
                         <label for="DoctorId" class="p-mr-2">Select Doctor</label>
-                        <p-dropdown [options]="doctors" placeholder="Select a Doctor" optionLabel="LastName" formControlName="DoctorName" optionValue="LastName"></p-dropdown>
+                        <p-dropdown [options]="doctors" placeholder="Doctor" optionLabel="LastName" formControlName="DoctorName" optionValue="LastName"></p-dropdown>
                     </div>
+                </div>
+                <p-divider align="left">
+                    <div class="p-d-inline-flex p-ai-center">
+                        <i class="pi pi-user p-mr-2"></i>
+                        <b>Patient</b>
+                    </div>
+                </p-divider>
+                <div class="p-fluid">
+                    <div class="p-field">
+                        <input id="PatientFirstName" type="Text" pInputText formControlName="PatientFirstName" placeholder="First Name" [style]="{'width': '100%'}">
+                    </div>
+                    <div class="p-field">
+                        <input id="PatientLastName" type="Text" pInputText formControlName="PatientLastName" placeholder="Last Name" [style]="{'width': '100%'}">
+                    </div>
+                </div>
+            </div>
+            <div class="p-col">
+                <p-divider align="left">
+                    <div class="p-d-inline-flex p-ai-center">
+                        <i class="pi pi-calendar p-mr-2"></i>
+                        <b>Date</b>
+                    </div>
+                </p-divider>
+                <div class="p-fluid">
                     <div class="p-field">
                         <label for="ReceiveDate" class="p-mr-2">Receive Date</label>
                         <p-calendar id="ReceiveDate" formControlName="ReceiveDate"></p-calendar>
@@ -72,38 +104,26 @@
                         <p-calendar id="DueDate" formControlName="DueDate"></p-calendar>
                     </div>
                 </div>
-            </div>
-            <div class="p-col">
+                <p-divider align="left">
+                    <div class="p-d-inline-flex p-ai-center">
+                        <i class="pi pi-forward p-mr-2"></i>
+                        <b>Priority</b>
+                    </div>
+                </p-divider>
                 <div class="p-fluid">
-                    <div class="p-field">
-                        <label for="Remake" class="p-mr-2">Remake</label>
-                        <p-checkbox formControlName="Remake" binary="true" inputId="binary"></p-checkbox>
-                    </div>
-                    <div class="p-field">
-                        <label for="Rush" class="p-mr-2">Rush</label>
-                        <p-checkbox formControlName="Rush" binary="true" inputId="binary"></p-checkbox>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <p-divider align="left">
-            <div class="p-d-inline-flex p-ai-center">
-                <i class="pi pi-user p-mr-2"></i>
-                <b>Patient</b>
-            </div>
-        </p-divider>
-
-        <div class="p-grid">
-            <div class="p-col">
-                <div class="p-fluid">
-                    <div class="p-field">
-                        <label for="PatientFirstName" class="p-mr-2">First Name</label>
-                        <input id="PatientFirstName" type="Text" pInputText formControlName="PatientFirstName" [style]="{'width': '100%'}">
-                    </div>
-                    <div class="p-field">
-                        <label for="PatientLastName" class="p-mr-2">Last Name</label>
-                        <input id="PatientLastName" type="Text" pInputText formControlName="PatientLastName" [style]="{'width': '100%'}">
+                    <div class="p-grid">
+                        <div class="p-col">
+                            <div class="p-field">
+                                Remake
+                                <p-checkbox formControlName="Remake" binary="true" inputId="binary"></p-checkbox>
+                            </div>
+                        </div>
+                        <div class="p-col">
+                            <div class="p-field">
+                                Rush
+                                <p-checkbox formControlName="Rush" binary="true" inputId="binary"></p-checkbox>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -121,11 +141,7 @@
                 <div class="p-fluid">
                     <div class="p-field">
                         <label for="TType" class="p-mr-2">Tooth Type</label>
-                        <p-dropdown [options]="types" placeholder="Select a Type" optionLabel="Name" formControlName="TType" optionValue="Name"></p-dropdown>
-                    </div>
-                    <div class="p-field">
-                        <label for="Price" class="p-mr-2">Price</label>
-                        <p-dropdown [options]="types" placeholder="Select a Type" optionLabel="Price" formControlName="Price" optionValue="Price"></p-dropdown>
+                        <p-dropdown [options]="types" placeholder="Select a Type" optionLabel="Name" formControlName="ToothTypeId" optionValue="ToothTypeId"></p-dropdown>
                     </div>
                     <div class="p-field">
                         <label for="Tooth" class="p-mr-2">Tooth Number</label>
@@ -143,60 +159,43 @@
             </div>
         </div>
 
+        <p-divider align="left">
+        </p-divider>
+
         <div class="p-d-flex p-jc-end">
             <div class="p-mr-2">
                 <button pButton type="button" label="Cancel" class="p-mr-2-secondary" (click)="cancelCreate()"></button>
             </div>
             <div class="p-mr-2">
-                <button pButton type="button" label="Save" class="p-mr-2-secondary" (click)="saveNewCaze()"></button>
+                <button pButton type="button" label="Save" class="p-mr-2-secondary p-button-success" (click)="saveNewCaze()"></button>
             </div>
         </div>
     </form>
 </p-dialog>
 
 <!-- EDIT -->
-<!-- <p-dialog header="Edit Caze" [(visible)]="displayEdit" (onHide)="cancelEdit()" [style]="{'width': '50vw'}">
+<p-dialog header="Edit Case" [(visible)]="displayEdit" (onHide)="cancelEdit()" [style]="{'width': '60vw', 'height': '46vw'}">
     <form [formGroup]="cazeForm" (ngSubmit)="updateCaze()">
         <div class="p-grid">
             <div class="p-col">
+                <p-divider align="left">
+                    <div class="p-d-inline-flex p-ai-center">
+                        <i class="pi pi-user p-mr-2"></i>
+                        <b>Doctor</b>
+                    </div>
+                </p-divider>
                 <div class="p-fluid">
                     <div class="p-field">
                         <label for="DoctorId" class="p-mr-2">Select Doctor</label>
-                        <p-dropdown [options]="doctors" placeholder="Select a Doctor" optionLabel="LastName" formControlName="DoctorId" optionValue="DoctorId"></p-dropdown>
-                    </div>
-                    <div class="p-field">
-                        <label for="ReceiveDate" class="p-mr-2">Receive Date</label>
-                        <p-calendar id="ReceiveDate" formControlName="ReceiveDate"></p-calendar>
-                    </div>
-                    <div class="p-field">
-                        <label for="DueDate" class="p-mr-2">Due Date</label>
-                        <p-calendar id="DueDate" formControlName="DueDate"></p-calendar>
+                        <p-dropdown [options]="doctors" placeholder="Select a Doctor" optionLabel="LastName" formControlName="DoctorName" optionValue="LastName"></p-dropdown>
                     </div>
                 </div>
-            </div>
-            <div class="p-col">
-                <div class="p-fluid">
-                    <div class="p-field">
-                        <label for="Remake" class="p-mr-2">Remake</label>
-                        <p-checkbox formControlName="Remake" binary="true" inputId="binary"></p-checkbox>
+                <p-divider align="left">
+                    <div class="p-d-inline-flex p-ai-center">
+                        <i class="pi pi-user p-mr-2"></i>
+                        <b>Patient</b>
                     </div>
-                    <div class="p-field">
-                        <label for="Rush" class="p-mr-2">Rush</label>
-                        <p-checkbox formControlName="Rush" binary="true" inputId="binary"></p-checkbox>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <p-divider align="left">
-            <div class="p-d-inline-flex p-ai-center">
-                <i class="pi pi-user p-mr-2"></i>
-                <b>Patient</b>
-            </div>
-        </p-divider>
-
-        <div class="p-grid">
-            <div class="p-col">
+                </p-divider>
                 <div class="p-fluid">
                     <div class="p-field">
                         <label for="PatientFirstName" class="p-mr-2">First Name</label>
@@ -209,14 +208,42 @@
                 </div>
             </div>
             <div class="p-col">
+                <p-divider align="left">
+                    <div class="p-d-inline-flex p-ai-center">
+                        <i class="pi pi-calendar p-mr-2"></i>
+                        <b>Date</b>
+                    </div>
+                </p-divider>
                 <div class="p-fluid">
                     <div class="p-field">
-                        <label for="PatientAddress" class="p-mr-2">Address</label>
-                        <input id="PatientAddress" type="Text" pInputText formControlName="PatientAddress" [style]="{'width': '100%'}">
+                        <label for="ReceiveDate" class="p-mr-2">Receive Date</label>
+                        <p-calendar id="ReceiveDate" formControlName="ReceiveDate" [defaultDate]="this.receiveDate"></p-calendar>
                     </div>
                     <div class="p-field">
-                        <label for="PatientPhone" class="p-mr-2">Phone</label>
-                        <input id="PatientPhone" type="Text" pInputText formControlName="PatientPhone" [style]="{'width': '100%'}">
+                        <label for="DueDate" class="p-mr-2">Due Date</label>
+                        <p-calendar id="DueDate" formControlName="DueDate" [defaultDate]="this.dueDate"></p-calendar>
+                    </div>
+                </div>
+                <p-divider align="left">
+                    <div class="p-d-inline-flex p-ai-center">
+                        <i class="pi pi-forward p-mr-2"></i>
+                        <b>Priority</b>
+                    </div>
+                </p-divider>
+                <div class="p-fluid">
+                    <div class="p-grid">
+                        <div class="p-col">
+                            <div class="p-field">
+                                Remake
+                                <p-checkbox formControlName="Remake" binary="true" inputId="binary"></p-checkbox>
+                            </div>
+                        </div>
+                        <div class="p-col">
+                            <div class="p-field">
+                                Rush
+                                <p-checkbox formControlName="Rush" binary="true" inputId="binary"></p-checkbox>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -234,7 +261,7 @@
                 <div class="p-fluid">
                     <div class="p-field">
                         <label for="TType" class="p-mr-2">Tooth Type</label>
-                        <p-dropdown [options]="types" placeholder="Select a Type" optionLabel="Name" formControlName="TType" optionValue="Name"></p-dropdown>
+                        <p-dropdown [options]="types" optionLabel="Name" formControlName="ToothTypeId" optionValue="ToothTypeId"></p-dropdown>
                     </div>
                     <div class="p-field">
                         <label for="Tooth" class="p-mr-2">Tooth Number</label>
@@ -254,7 +281,7 @@
                 <div class="p-fluid">
                     <div class="p-field">
                         <label for="Shade" class="p-mr-2">Status</label>
-                        <p-checkbox formControlName="Status" binary="true" inputId="binary"></p-checkbox>
+                        <p-dropdown [options]="status" formControlName="Status"></p-dropdown>
                     </div>
                 </div>
             </div>
@@ -265,7 +292,7 @@
                 <button pButton type="button" label="Cancel" class="p-mr-2-secondary" (click)="cancelEdit()"></button>
             </div>
             <div class="p-mr-2">
-                <button pButton type="button" label="Save" class="p-mr-2-secondary" (click)="updateCaze()"></button>
+                <button pButton type="button" label="Save" class="p-mr-2-secondary p-button-success" (click)="updateCaze()"></button>
             </div>
         </div>
     </form>
@@ -276,4 +303,8 @@
         <button type="button" pButton icon="pi pi-times" label="No" (click)="cd.reject()"></button>
         <button type="button" pButton class="p-button-danger" icon="pi pi-check" label="Yes" (click)="cd.accept()"></button>
     </p-footer>
-</p-confirmDialog> -->
+</p-confirmDialog>
+
+<p-toast position="bottom-right" key="create"></p-toast>
+<p-toast position="bottom-right" key="update"></p-toast>
+<p-toast position="bottom-right" key="delete"></p-toast>

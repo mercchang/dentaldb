@@ -17,8 +17,8 @@
                 <ng-template pTemplate="body" let-wc>
                     <tr style="height:34px">
                         <td>{{wc.DoctorName}}</td>
-                        <td>{{wc.ReceiveDate | date}}</td>
-                        <td>{{wc.DueDate | date}}</td>
+                        <td>{{wc.ReceiveDate.toDate() | date :'fullDate'}}</td>
+                        <td>{{wc.DueDate.toDate() | date :'fullDate'}}</td>
                         <td>{{wc.Remake}}</td>
                         <td>{{wc.Rush}}</td>
                         <td>{{wc.PatientFullName}}</td>
@@ -46,8 +46,8 @@
                 <ng-template pTemplate="body" let-rc>
                     <tr style="height:34px">
                         <td>{{rc.DoctorName}}</td>
-                        <td>{{rc.ReceiveDate | date}}</td>
-                        <td>{{rc.DueDate | date}}</td>
+                        <td>{{rc.ReceiveDate.toDate() | date :'fullDate'}}</td>
+                        <td>{{rc.DueDate.toDate() | date :'fullDate'}}</td>
                         <td>{{rc.Remake}}</td>
                         <td>{{rc.PatientFullName}}</td>
                         <td>{{rc.TType}}</td>
@@ -78,8 +78,8 @@
                 <ng-template pTemplate="body" let-c>
                     <tr style="height:34px">
                         <td>{{c.DoctorName}}</td>
-                        <td>{{c.ReceiveDate | date}}</td>
-                        <td>{{c.DueDate | date}}</td>
+                        <td>{{c.ReceiveDate.toDate() | date :'fullDate'}}</td>
+                        <td>{{c.DueDate.toDate() | date :'fullDate'}}</td>
                         <td>{{c.Remake}}</td>
                         <td>{{c.Rush}}</td>
                         <td>{{c.PatientFullName}}</td>
@@ -91,8 +91,8 @@
         </p-card>            
     </div>
     <div class="p-col-6">
-        <p-card header="Outgoing Cases">
-            <p-table [value]="cazes" [scrollable]="true" [rows]="50" scrollHeight="250px" [virtualRowHeight]="20">
+        <p-card header="Outgoing/Complete Cases">
+            <p-table [value]="outCazes" [scrollable]="true" [rows]="50" scrollHeight="250px" [virtualRowHeight]="20">
                 <ng-template pTemplate="header">
                     <tr>
                         <th pSortableColumn="Doctor">Doctor </th>
@@ -108,8 +108,8 @@
                 <ng-template pTemplate="body" let-c>
                     <tr style="height:34px">
                         <td>{{c.DoctorName}}</td>
-                        <td>{{c.ReceiveDate | date}}</td>
-                        <td>{{c.DueDate | date}}</td>
+                        <td>{{c.ReceiveDate.toDate() | date :'fullDate'}}</td>
+                        <td>{{c.DueDate.toDate() | date :'fullDate'}}</td>
                         <td>{{c.Remake}}</td>
                         <td>{{c.Rush}}</td>
                         <td>{{c.PatientFullName}}</td>

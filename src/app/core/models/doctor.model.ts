@@ -1,7 +1,8 @@
 import { Caze } from "./caze.model";
 
 export class Doctor{
-    DoctorId: number;
+    id: string;
+    DocNumber: number;
     FirstName: string;
     LastName: string;
     Address: string;

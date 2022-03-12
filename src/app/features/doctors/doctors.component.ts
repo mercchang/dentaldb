@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ConfirmationService } from 'primeng/api';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { Doctor } from 'src/app/core/models/doctor.model';
 import { DoctorService } from 'src/app/core/services/doctor.service';
 
@@ -14,8 +14,10 @@ export class DoctorsComponent implements OnInit {
   displayEdit: boolean = false;
   doctors: Doctor[];
   doctorForm: FormGroup;
+  docNum: number;
+  editId: string;
 
-  constructor(private docService: DoctorService, private confirmationService: ConfirmationService) { }
+  constructor(private docService: DoctorService, private confirmationService: ConfirmationService, private messageService: MessageService, private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
     this.getDoctors();
@@ -23,7 +25,8 @@ export class DoctorsComponent implements OnInit {
   }
 
   createFormGroup(){
-    this.doctorForm = new FormGroup({
+    this.doctorForm = this.formBuilder.group({
+      DocNumber: this.docNum,
       FirstName: new FormControl(null, [Validators.required]),
       LastName: new FormControl(null, [Validators.required]),
       Address: new FormControl(null, [Validators.required]),
@@ -31,26 +34,24 @@ export class DoctorsComponent implements OnInit {
     })
   }
 
-  editFormGroup(id, firstName, lastName, address, phone){
-    this.displayEdit = true;
-    this.doctorForm = new FormGroup({
-      DoctorId: new FormControl(id),
-      FirstName: new FormControl(firstName, [Validators.required]),
-      LastName: new FormControl(lastName, [Validators.required]),
-      Address: new FormControl(address, [Validators.required]),
-      Phone: new FormControl(phone, [Validators.required])
+  editFormGroup(doc: Doctor){
+    this.doctorForm = this.formBuilder.group({
+      FirstName: new FormControl(doc.FirstName, [Validators.required]),
+      LastName: new FormControl(doc.LastName, [Validators.required]),
+      Address: new FormControl(doc.Address, [Validators.required]),
+      Phone: new FormControl(doc.Phone, [Validators.required])
     })
   }
 
-  saveNewDoctor(){
-    let newDoctor = new Doctor(this.doctorForm.value.FirstName, 
-      this.doctorForm.value.LastName, this.doctorForm.value.Address, this.doctorForm.value.Phone);
+  createDoctor(){
+    this.createFormGroup();
+    this.displayCreate = true;
+  }
 
-      this.docService.createDoctor(newDoctor).toPromise().then(d =>{
-        this.displayCreate = false;
-        this.doctorForm.reset();
-        this.getDoctors();
-      })
+  saveNewDoctor(){
+    this.docService.createDoctor(this.doctorForm.value);
+    this.displayCreate = false;
+    this.showSuccessfulCreate();
   }
 
   getDoctors(){
@@ -61,30 +62,35 @@ export class DoctorsComponent implements OnInit {
           ...e.payload.doc.data() as {}
         } as unknown as Doctor;
       })
-      console.log(this.doctors)
+      // find max doctor number
+      this.docNum = 0;
+      for (let i = 0; i < this.doctors.length; i++) {
+        if (this.doctors[i].DocNumber > this.docNum) {
+          this.docNum = this.doctors[i].DocNumber;
+        }
+      }
+      // assign newest doctor number
+      this.docNum += 1;
     });
   }
 
-  createDoctor(){
-    this.createFormGroup();
-    this.displayCreate = true;
-  }
-
   editDoctor(d:Doctor){
-    this.editFormGroup(d.DoctorId, d.FirstName, d.LastName, d.Address, d.Phone);
     this.displayEdit = true;
+    if(d) {
+      let docEdit: any;
+      this.displayEdit = true;
+      this.editId = d.id;
+      this.docService.getDoctor(d.id).subscribe(res => {
+        docEdit = res;
+        this.editFormGroup(docEdit);
+      })
+    }
   }
 
   updateDoctor(){
-    let updatedDoctor = new Doctor(this.doctorForm.value.FirstName, 
-      this.doctorForm.value.LastName, this.doctorForm.value.Address, this.doctorForm.value.Phone);
-
-    this.docService.editDoctor(this.doctorForm.value.DoctorId, updatedDoctor).toPromise().then(d =>{
-      console.log(this.doctorForm.value.DoctorId);
-      this.doctorForm.reset();
-      this.displayEdit = false;
-      this.getDoctors();
-    })
+    this.docService.editDoctor(this.doctorForm.value, this.editId);
+    this.displayEdit = false;
+    this.showSuccessfulEdit();
   }
 
   cancelCreate(){
@@ -97,18 +103,28 @@ export class DoctorsComponent implements OnInit {
     this.displayEdit = false;
   }
 
-  deleteDoctor(id:number){
-    console.log(id);
+  deleteDoctor(doc:Doctor){
     this.confirmationService.confirm({
       message: 'Are you sure you want to delete this Doctor?',
       accept: () => {
-        this.docService.deleteDoctor(id).toPromise().then(t => {
-          this.getDoctors();
-        })
+        this.docService.deleteDoctor(doc)
+        this.showSuccessfulDelete()
       },
       reject: () => {
 
       }
     });
+  }
+
+  showSuccessfulCreate() {
+    this.messageService.add({key:'create', severity:'success', summary: 'Success', detail: 'Doctor added!'});
+  }
+
+  showSuccessfulEdit() {
+    this.messageService.add({key:'update', severity:'success', summary: 'Success', detail: 'Doctor saved!'});
+  }
+
+  showSuccessfulDelete() {
+    this.messageService.add({key:'delete', severity:'warn', summary: 'Delete', detail: 'Doctor has been deleted'});
   }
 }

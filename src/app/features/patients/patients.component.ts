@@ -8,8 +8,7 @@ import { CazeService } from 'src/app/core/services/Caze.service';
   styleUrls: ['./patients.component.scss']
 })
 export class PatientsComponent implements OnInit {
-  cases: Caze[];
-
+  cazes: Caze[];
   constructor(private cazeService: CazeService) { }
 
   ngOnInit(): void {
@@ -17,8 +16,13 @@ export class PatientsComponent implements OnInit {
   }
 
   getCazes(){
-    // this.cazeService.getCazes().toPromise().then((c:Caze[]) => {
-    //   this.cases = c;
-    // })
+    this.cazeService.getCazes().subscribe(res => {
+      this.cazes = res.map( e => {
+        return {
+          id: e.payload.doc.id,
+          ...e.payload.doc.data() as {}
+        } as unknown as Caze;
+      })
+    });
   }
 }

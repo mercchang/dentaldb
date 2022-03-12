@@ -26,31 +26,33 @@ export class DashboardComponent implements OnInit {
   }
 
   getCazes(){
-    // this.cazeService.getCazes().toPromise().then((c:Caze[]) => {
-    //   this.cazes = c;
-    //   // this.weekDate = this.currentDate - 7;
-    //   console.log(this.currentDate);
+    this.cazeService.getCazes().subscribe(res => {
+      this.cazes = res.map( e => {
+        return {
+          id: e.payload.doc.id,
+          ...e.payload.doc.data() as {}
+        } as unknown as Caze;
+      })
 
-    //   for(let i=0;i < this.cazes.length; i++)
-    //   {
-    //     if(c[i].Rush == true)
-    //       this.rushCazes.push(c[i]);
+      // rush cases
+      for(let i=0;i < this.cazes.length; i++)
+      {
+        if(this.cazes[i].Rush == true)
+          this.rushCazes.push(this.cazes[i]);
+      }
 
-    //     //this.dateString = this.datePipe.transform(this.currentDate, 'yyyy-MM-dd');
+      // cases due this week
+      //this.weekDate = this.currentDate - 7;
 
-    //     console.log("receive date" + c[i].ReceiveDate);
-    //     console.log(typeof c[i].ReceiveDate);
-    //     console.log("current date" + this.currentDate);
+      // new cases
+      //this.weekDate = this.currentDate - 7;
 
-    //     var receiveDate = new Date(c[i].ReceiveDate);
-
-    //     if(receiveDate < this.currentDate)
-    //     {
-    //       this.weekCazes.push(c[i]);
-    //       console.log(true);
-    //     }
-    //   }
-    //   console.log(this.weekCazes);
-    // })
+      // outgoing cases
+      for(let i=0;i < this.cazes.length; i++)
+      {
+        if(this.cazes[i].Status == "Complete")
+          this.outCazes.push(this.cazes[i]);
+      }
+    });
   }
 }

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ConfirmationService } from 'primeng/api';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { ToothType } from 'src/app/core/models/tooth-type.model';
 import { ToothtypeService } from 'src/app/core/services/toothtype.service';
 
@@ -14,8 +14,10 @@ export class ToothTypesComponent implements OnInit {
   displayEdit: boolean = false;
   toothTypes: ToothType[];
   toothTypeForm: FormGroup;
+  typeNum: number;
+  editId: string;
 
-  constructor(private ttService: ToothtypeService, private confirmationService: ConfirmationService) { }
+  constructor(private ttService: ToothtypeService, private confirmationService: ConfirmationService, private messageService: MessageService, private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
     this.getTypes();
@@ -23,32 +25,20 @@ export class ToothTypesComponent implements OnInit {
   }
 
   createFormGroup(){
-    this.toothTypeForm = new FormGroup({
+    this.toothTypeForm = this.formBuilder.group({
+      ToothTypeId: this.typeNum,
       Name: new FormControl(null, [Validators.required]),
       Price: new FormControl(null, [Validators.required]),
       Description: new FormControl(null, [Validators.required])
     })
   }
 
-  editFormGroup(id, name, price, description){
-    this.displayEdit = true;
-    this.toothTypeForm = new FormGroup({
-      ToothTypeId: new FormControl(id),
-      Name: new FormControl(name, [Validators.required]),
-      Price: new FormControl(price, [Validators.required]),
-      Description: new FormControl(description, [Validators.required])
+  editFormGroup(tt:ToothType){
+    this.toothTypeForm = this.formBuilder.group({
+      Name: new FormControl(tt.Name, [Validators.required]),
+      Price: new FormControl(tt.Price, [Validators.required]),
+      Description: new FormControl(tt.Description, [Validators.required])
     })
-  }
-
-  saveNewType(){
-    let newType = new ToothType(this.toothTypeForm.value.Name, 
-      this.toothTypeForm.value.Price, this.toothTypeForm.value.Description);
-
-      this.ttService.createToothType(newType).toPromise().then(t =>{
-        this.displayCreate = false;
-        this.toothTypeForm.reset();
-        this.getTypes();
-      })
   }
 
   getTypes(){
@@ -59,7 +49,15 @@ export class ToothTypesComponent implements OnInit {
           ...e.payload.doc.data() as {}
         } as unknown as ToothType;
       })
-      console.log(this.toothTypes)
+      // find max doctor number
+      this.typeNum = 0;
+      for (let i = 0; i < this.toothTypes.length; i++) {
+        if (this.toothTypes[i].ToothTypeId > this.typeNum) {
+          this.typeNum = this.toothTypes[i].ToothTypeId;
+        }
+      }
+      // assign newest doctor number
+      this.typeNum += 1;
     });
   }
 
@@ -68,21 +66,29 @@ export class ToothTypesComponent implements OnInit {
     this.displayCreate = true;
   }
 
-  editType(t:ToothType){
-    this.editFormGroup(t.ToothTypeId, t.Name, t.Price, t.Description);
+  saveNewType(){
+    this.ttService.createToothType(this.toothTypeForm.value);
+    this.displayCreate = false;
+    this.showSuccessfulCreate();
+  }
+
+  editType(tt:ToothType){
     this.displayEdit = true;
+    if(tt) {
+      let ttEdit: any;
+      this.displayEdit = true;
+      this.editId = tt.id;
+      this.ttService.getToothType(tt.id).subscribe(res => {
+        ttEdit = res;
+        this.editFormGroup(ttEdit);
+      })
+    }
   }
 
   updateType(){
-    let updatedType = new ToothType(this.toothTypeForm.value.Name, 
-      this.toothTypeForm.value.Price, this.toothTypeForm.value.Description);
-
-    this.ttService.editToothType(this.toothTypeForm.value.ToothTypeId, updatedType).toPromise().then(t =>{
-      console.log(this.toothTypeForm.value.ToothTypeId);
-      this.toothTypeForm.reset();
-      this.displayEdit = false;
-      this.getTypes();
-    })
+    this.ttService.editToothType(this.toothTypeForm.value, this.editId);
+    this.displayEdit = false;
+    this.showSuccessfulEdit();
   }
 
   cancelCreate(){
@@ -95,18 +101,29 @@ export class ToothTypesComponent implements OnInit {
     this.displayEdit = false;
   }
 
-  deleteType(id:number){
-    console.log(id);
+  deleteType(tt:ToothType){
+    console.log(tt);
     this.confirmationService.confirm({
       message: 'Are you sure you want to delete this type?',
       accept: () => {
-        this.ttService.deleteToothType(id).toPromise().then(t => {
-          this.getTypes();
-        })
+        this.ttService.deleteToothType(tt)
+        this.showSuccessfulDelete()
       },
       reject: () => {
 
       }
     });
+  }
+
+  showSuccessfulCreate() {
+    this.messageService.add({key:'create', severity:'success', summary: 'Success', detail: 'New type added!'});
+  }
+
+  showSuccessfulEdit() {
+    this.messageService.add({key:'update', severity:'success', summary: 'Success', detail: 'Type saved!'});
+  }
+
+  showSuccessfulDelete() {
+    this.messageService.add({key:'delete', severity:'warn', summary: 'Delete', detail: 'Type has been deleted'});
   }
 }

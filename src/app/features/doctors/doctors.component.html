@@ -19,14 +19,14 @@
                 </ng-template>
                 <ng-template pTemplate="body" let-doc>
                     <tr>
-                        <td>{{doc.DoctorId}}</td>
+                        <td>{{doc.DocNumber}}</td>
                         <td>{{doc.FirstName}}</td>
                         <td>{{doc.LastName}}</td>
                         <td>{{doc.Address}}</td>
                         <td>{{doc.Phone}}</td>
                         <td>
                             <button pButton type="button" class="p-button-warning" icon="pi pi-pencil" (click)="editDoctor(doc)"></button>
-                            <button pButton type="button" class="p-button-danger" icon="pi pi-times" (click)="deleteDoctor(doc.DoctorId)"></button>
+                            <button pButton type="button" class="p-button-danger" icon="pi pi-times" (click)="deleteDoctor(doc)"></button>
                         </td>
                     </tr>
                 </ng-template>
@@ -105,3 +105,7 @@
         <button type="button" pButton class="p-button-danger" icon="pi pi-check" label="Yes" (click)="cd.accept()"></button>
     </p-footer>
 </p-confirmDialog>
+
+<p-toast position="bottom-right" key="create"></p-toast>
+<p-toast position="bottom-right" key="update"></p-toast>
+<p-toast position="bottom-right" key="delete"></p-toast>

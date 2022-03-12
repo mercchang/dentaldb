@@ -1,4 +1,5 @@
 export class ToothType{
+    id: string;
     ToothTypeId: number
     Name: string;
     Price: string;
