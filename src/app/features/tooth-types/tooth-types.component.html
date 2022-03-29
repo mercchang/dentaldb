@@ -10,10 +10,10 @@
             <p-table [value]="toothTypes" styleClass="p-datatable-sm">
                 <ng-template pTemplate="header">
                     <tr>
-                        <th>Id</th>
-                        <th>Name</th>
-                        <th>Price</th>
-                        <th>Description</th>
+                        <th pSortableColumn="ToothTypeId">Id</th>
+                        <th pSortableColumn="Name">Name</th>
+                        <th pSortableColumn="Price">Price</th>
+                        <th pSortableColumn="Description">Description</th>
                         <th></th>
                     </tr>
                 </ng-template>
