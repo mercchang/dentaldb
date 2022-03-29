@@ -4,11 +4,11 @@
             <p-table [value]="cazes" styleClass="p-datatable-sm">
                 <ng-template pTemplate="header">
                     <tr>
-                        <th>Case</th>
-                        <th>Patient</th>
-                        <th>Doctor</th>
-                        <th>Tooth</th>
-                        <th>Type</th>
+                        <th pSortableColumn="CazeNum">Case</th>
+                        <th pSortableColumn="PatientLastName">Patient</th>
+                        <th pSortableColumn="DoctorName">Doctor</th>
+                        <th pSortableColumn="Tooth">Tooth</th>
+                        <th pSortableColumn="TType">Type</th>
                     </tr>
                 </ng-template>
                 <ng-template pTemplate="body" let-c>

@@ -10,11 +10,11 @@
             <p-table [value]="doctors" styleClass="p-datatable-sm">
                 <ng-template pTemplate="header">
                     <tr>
-                        <th>Id</th>
-                        <th>First</th>
-                        <th>Last</th>
-                        <th>Address</th>
-                        <th>Phone</th>
+                        <th pSortableColumn="DocNumber">Id</th>
+                        <th pSortableColumn="FirstName">First</th>
+                        <th pSortableColumn="LastName">Last</th>
+                        <th pSortableColumn="Address">Address</th>
+                        <th pSortableColumn="Phone">Phone</th>
                     </tr>
                 </ng-template>
                 <ng-template pTemplate="body" let-doc>
