@@ -1,15 +1,15 @@
 <div class="p-grid">
     <div class="p-col-6">
-        <p-card header="Cases Due This Week">
-            <p-table [value]="weekCazes" [scrollable]="true" [rows]="50" scrollHeight="250px" [virtualScroll]="true" [virtualRowHeight]="20">
+        <p-card header="Cases Due Soon(7 days)">
+            <p-table [value]="weekCazes" [scrollable]="true" styleClass="p-datatable-sm" [rows]="50" scrollHeight="250px" [virtualRowHeight]="20">
                 <ng-template pTemplate="header">
                     <tr>
-                        <th pSortableColumn="Doctor">Doctor </th>
+                        <th pSortableColumn="Doctor">Doctor</th>
                         <th pSortableColumn="Received">Received</th>
                         <th pSortableColumn="Due">Due</th>
                         <th pSortableColumn="Remake">Remake</th>
                         <th pSortableColumn="Rush">Rush</th>
-                        <th pSortableColumn="PatientFullName">Patient</th>
+                        <th pSortableColumn="PatientLastName">Patient</th>
                         <th pSortableColumn="Type">Type</th>
                         <th pSortableColumn="Shade">Shade</th>
                     </tr>
@@ -21,7 +21,7 @@
                         <td>{{wc.DueDate.toDate() | date :'fullDate'}}</td>
                         <td>{{wc.Remake}}</td>
                         <td>{{wc.Rush}}</td>
-                        <td>{{wc.PatientFullName}}</td>
+                        <td>{{wc.PatientLastName}}, {{wc.PatientFirstName}}</td>
                         <td>{{wc.TType}}</td>
                         <td>{{wc.Shade}}</td>
                     </tr>
@@ -31,14 +31,14 @@
     </div>
     <div class="p-col-6">
         <p-card header="Rush Cases">
-            <p-table [value]="rushCazes" [scrollable]="true" [rows]="50" scrollHeight="250px" [virtualRowHeight]="20">
+            <p-table [value]="rushCazes" [scrollable]="true" styleClass="p-datatable-sm" [rows]="50" scrollHeight="250px" [virtualRowHeight]="20">
                 <ng-template pTemplate="header">
                     <tr>
-                        <th pSortableColumn="Doctor">Doctor </th>
+                        <th pSortableColumn="Doctor">Doctor</th>
                         <th pSortableColumn="Received">Received</th>
                         <th pSortableColumn="Due">Due</th>
                         <th pSortableColumn="Remake">Remake</th>
-                        <th pSortableColumn="PatientFullName">Patient</th>
+                        <th pSortableColumn="PatientLastName">Patient</th>
                         <th pSortableColumn="Type">Type</th>
                         <th pSortableColumn="Shade">Shade</th>
                     </tr>
@@ -49,7 +49,7 @@
                         <td>{{rc.ReceiveDate.toDate() | date :'fullDate'}}</td>
                         <td>{{rc.DueDate.toDate() | date :'fullDate'}}</td>
                         <td>{{rc.Remake}}</td>
-                        <td>{{rc.PatientFullName}}</td>
+                        <td>{{rc.PatientLastName}}, {{rc.PatientFirstName}}</td>
                         <td>{{rc.TType}}</td>
                         <td>{{rc.Shade}}</td>
                     </tr>
@@ -60,17 +60,17 @@
 </div>
 
 <div class="p-grid">
-    <div class="p-col-6">
-        <p-card header="New Cases">
-            <p-table [value]="cazes" [scrollable]="true" [rows]="50" scrollHeight="250px" [virtualRowHeight]="20">
+    <div class="p-col">
+        <p-card header="Complete: Need to Deliver">
+            <p-table [value]="outCazes" [scrollable]="true" styleClass="p-datatable-sm" [rows]="50" scrollHeight="250px" [virtualRowHeight]="20">
                 <ng-template pTemplate="header">
                     <tr>
-                        <th pSortableColumn="Doctor">Doctor </th>
+                        <th pSortableColumn="Doctor">Doctor</th>
                         <th pSortableColumn="Received">Received</th>
                         <th pSortableColumn="Due">Due</th>
                         <th pSortableColumn="Remake">Remake</th>
                         <th pSortableColumn="Rush">Rush</th>
-                        <th pSortableColumn="PatientFullName">Patient</th>
+                        <th pSortableColumn="PatientLastName">Patient</th>
                         <th pSortableColumn="Type">Type</th>
                         <th pSortableColumn="Shade">Shade</th>
                     </tr>
@@ -82,37 +82,7 @@
                         <td>{{c.DueDate.toDate() | date :'fullDate'}}</td>
                         <td>{{c.Remake}}</td>
                         <td>{{c.Rush}}</td>
-                        <td>{{c.PatientFullName}}</td>
-                        <td>{{c.TType}}</td>
-                        <td>{{c.Shade}}</td>
-                    </tr>
-                </ng-template>
-            </p-table>
-        </p-card>            
-    </div>
-    <div class="p-col-6">
-        <p-card header="Outgoing/Complete Cases">
-            <p-table [value]="outCazes" [scrollable]="true" [rows]="50" scrollHeight="250px" [virtualRowHeight]="20">
-                <ng-template pTemplate="header">
-                    <tr>
-                        <th pSortableColumn="Doctor">Doctor </th>
-                        <th pSortableColumn="Received">Received</th>
-                        <th pSortableColumn="Due">Due</th>
-                        <th pSortableColumn="Remake">Remake</th>
-                        <th pSortableColumn="Rush">Rush</th>
-                        <th pSortableColumn="PatientFullName">Patient</th>
-                        <th pSortableColumn="Type">Type</th>
-                        <th pSortableColumn="Shade">Shade</th>
-                    </tr>
-                </ng-template>
-                <ng-template pTemplate="body" let-c>
-                    <tr style="height:34px">
-                        <td>{{c.DoctorName}}</td>
-                        <td>{{c.ReceiveDate.toDate() | date :'fullDate'}}</td>
-                        <td>{{c.DueDate.toDate() | date :'fullDate'}}</td>
-                        <td>{{c.Remake}}</td>
-                        <td>{{c.Rush}}</td>
-                        <td>{{c.PatientFullName}}</td>
+                        <td>{{c.PatientLastName}}, {{c.PatientFirstName}}</td>
                         <td>{{c.TType}}</td>
                         <td>{{c.Shade}}</td>
                     </tr>

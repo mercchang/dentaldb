@@ -12,7 +12,7 @@ import { SideMenuComponent } from './layout/side-menu/side-menu.component';
 const routes: Routes = [{
   path: '', component: ContentComponent,
   children: [
-    {path: 'main', component: DashboardComponent},
+    {path: '', component: DashboardComponent},
     {path: 'sidemenu', component:SideMenuComponent},
     {path: 'doctors', component: DoctorsComponent},
     {path: 'cases', component: CazesComponent},

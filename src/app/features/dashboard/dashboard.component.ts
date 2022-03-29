@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import * as moment from 'moment';
 import { Caze } from 'src/app/core/models/caze.model';
 import { CazeService } from 'src/app/core/services/Caze.service';
 
@@ -14,8 +15,8 @@ export class DashboardComponent implements OnInit {
   newCazes: Caze[] = [];
   outCazes: Caze[] = [];
 
-  currentDate = new Date;
-  weekDate: Date;
+  currentDate: any;
+  weekDate: any;
   newDate: Date;
   dateString: String;
 
@@ -34,25 +35,29 @@ export class DashboardComponent implements OnInit {
         } as unknown as Caze;
       })
 
-      // rush cases
-      for(let i=0;i < this.cazes.length; i++)
-      {
+      // cases due this week: get 7 days from monday-friday
+      let week = moment().add(7, 'days')
+      let today = moment()
+      this.currentDate = moment(today).format("DD-MM-YYYY")
+      this.weekDate = moment(week).format("DD-MM-YYYY")
+      
+      for(let i=0;i < this.cazes.length; i++) {
+        // rush cases: check if rush is true
         if(this.cazes[i].Rush == true)
           this.rushCazes.push(this.cazes[i]);
-      }
 
-      // cases due this week
-      //this.weekDate = this.currentDate - 7;
+        // if case date is before weekdate & status is not delivered, push to weekcases
+        let tempDueDate = moment(this.cazes[i].DueDate).format("DD-MM-YYYY")
+        if(tempDueDate > this.weekDate && this.cazes[i].Status != "Delivered")
+          this.weekCazes.push(this.cazes[i]);
 
-      // new cases
-      //this.weekDate = this.currentDate - 7;
-
-      // outgoing cases
-      for(let i=0;i < this.cazes.length; i++)
-      {
+        // outgoing cases: check for complete cases
         if(this.cazes[i].Status == "Complete")
-          this.outCazes.push(this.cazes[i]);
+        this.outCazes.push(this.cazes[i]);
       }
+      console.log(this.weekCazes)
+      console.log(this.rushCazes)
+      console.log(this.outCazes)
     });
   }
 }

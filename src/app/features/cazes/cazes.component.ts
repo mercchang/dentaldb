@@ -137,7 +137,6 @@ export class CazesComponent implements OnInit {
       }
       // assign newest case number
       this.cazeNumber += 1;
-      console.log(this.cazeNumber)
     });
   }
 
@@ -164,7 +163,6 @@ export class CazesComponent implements OnInit {
         this.cazeForm.value.Price = this.types[i].Price;
       }
     }
-    console.log(this.cazeForm.value.TType)
     this.cazeService.editCaze(this.cazeForm.value, this.editId);
     this.displayEdit = false;
     this.showSuccessfulEdit();

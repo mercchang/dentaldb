@@ -8,7 +8,7 @@
         <div class="p-grid">
             <div class="p-col">
                 <p-card header="Cases">
-                    <p-table [value]="cazes">
+                    <p-table [value]="cazes" styleClass="p-datatable-sm">
                         <ng-template pTemplate="header">
                             <tr>
                                 <th pSortableColumn="CazeNum">Case Number</th>
@@ -22,7 +22,7 @@
                                 <th pSortableColumn="Type">Type</th>
                                 <th pSortableColumn="Shade">Shade</th>
                                 <th pSortableColumn="Status">Status</th>
-                                <th>Modify</th>
+                                <th></th>
                             </tr>
                         </ng-template>
                         <ng-template pTemplate="body" let-c>
@@ -30,7 +30,7 @@
                                 <td>{{c.CazeNum}}</td>
                                 <td>{{c.DoctorName}}</td>
                                 <td>{{c.ReceiveDate.toDate().toString() | date :'fullDate'}}</td>
-                                <td>{{c.DueDate.toDate().toString()| date :'fullDate'}}</td>
+                                <td>{{c.DueDate.toDate().toString() | date :'fullDate'}}</td>
                                 <td>{{c.Price | currency: 'USD'}}</td>
                                 <td>
                                     <i class="pi pi-check" *ngIf="c.Remake"></i>

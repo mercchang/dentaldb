@@ -11,8 +11,8 @@ export const environment = {
     projectId: "cdlab-5e94f",
     storageBucket: "cdlab-5e94f.appspot.com",
     messagingSenderId: "1040322750595",
-    appId: "1:1040322750595:web:d69ee3333f790fc1bad3b6",
-    measurementId: "G-ZMYBF15SMQ"
+    appId: "1:1040322750595:web:3d55f40bbf383b92bad3b6",
+    measurementId: "G-E54M3H7ZYG"
   }
   
 };
