@@ -15,10 +15,8 @@ export class DashboardComponent implements OnInit {
   newCazes: Caze[] = [];
   outCazes: Caze[] = [];
 
-  currentDate: any;
-  weekDate: any;
+  weekDate: moment.Moment;
   newDate: Date;
-  dateString: String;
 
   constructor(private cazeService: CazeService) { }
 
@@ -37,9 +35,7 @@ export class DashboardComponent implements OnInit {
 
       // cases due this week: get 7 days from monday-friday
       let week = moment().add(7, 'days')
-      let today = moment()
-      this.currentDate = moment(today).format("DD-MM-YYYY")
-      this.weekDate = moment(week).format("DD-MM-YYYY")
+      this.weekDate = moment(week, "MM-DD-YYYY")
       
       for(let i=0;i < this.cazes.length; i++) {
         // rush cases: check if rush is true
@@ -47,17 +43,22 @@ export class DashboardComponent implements OnInit {
           this.rushCazes.push(this.cazes[i]);
 
         // if case date is before weekdate & status is not delivered, push to weekcases
-        let tempDueDate = moment(this.cazes[i].DueDate).format("DD-MM-YYYY")
-        if(tempDueDate > this.weekDate && this.cazes[i].Status != "Delivered")
-          this.weekCazes.push(this.cazes[i]);
+        let d: any = this.cazes[i].DueDate  // set to 'any' so moment will work
+        let tcheck = moment(d.toDate(), "MM-DD-YYYY").isBefore(this.weekDate); //check if date is before week
 
+        console.log(tcheck)
+
+        if(tcheck && this.cazes[i].Status != "Delivered") {
+          this.weekCazes.push(this.cazes[i]);
+        }
+        
         // outgoing cases: check for complete cases
         if(this.cazes[i].Status == "Complete")
         this.outCazes.push(this.cazes[i]);
       }
-      console.log(this.weekCazes)
-      console.log(this.rushCazes)
-      console.log(this.outCazes)
+      // console.log(this.weekCazes)
+      // console.log(this.rushCazes)
+      // console.log(this.outCazes)
     });
   }
 }
