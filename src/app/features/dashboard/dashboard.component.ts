@@ -46,8 +46,6 @@ export class DashboardComponent implements OnInit {
         let d: any = this.cazes[i].DueDate  // set to 'any' so moment will work
         let tcheck = moment(d.toDate(), "MM-DD-YYYY").isBefore(this.weekDate); //check if date is before week
 
-        console.log(tcheck)
-
         if(tcheck && this.cazes[i].Status != "Delivered") {
           this.weekCazes.push(this.cazes[i]);
         }
