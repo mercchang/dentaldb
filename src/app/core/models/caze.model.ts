@@ -15,7 +15,7 @@ export class Caze{
     PatientFirstName: string;
     PatientLastName: string;
     PatientFullName: string;
-    Tooth: number;
+    Tooth: number[];
     Shade: string;
     TType: number;
     Status: string;

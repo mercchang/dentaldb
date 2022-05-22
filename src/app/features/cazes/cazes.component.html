@@ -15,12 +15,12 @@
                                 <th pSortableColumn="DoctorName">Doctor</th>
                                 <th pSortableColumn="Received">Received</th>
                                 <th pSortableColumn="Due">Due</th>
-                                <th pSortableColumn="Price">Price</th>
+                                <!-- <th pSortableColumn="Price">Price</th> -->
                                 <th pSortableColumn="Remake">Remake</th>
                                 <th pSortableColumn="Rush">Rush</th>
                                 <th pSortableColumn="PatientLastName">Patient</th>
-                                <th pSortableColumn="Type">Type</th>
-                                <th pSortableColumn="Shade">Shade</th>
+                                <!-- <th pSortableColumn="Type">Type</th> -->
+                                <th pSortableColumn="Tooth">Tooth</th>
                                 <th pSortableColumn="Status">Status</th>
                                 <th></th>
                             </tr>
@@ -31,7 +31,7 @@
                                 <td>{{c.DoctorName}}</td>
                                 <td>{{c.ReceiveDate.toDate().toString() | date :'fullDate'}}</td>
                                 <td>{{c.DueDate.toDate().toString() | date :'fullDate'}}</td>
-                                <td>{{c.Price | currency: 'USD'}}</td>
+                                <!-- <td>{{c.Price | currency: 'USD'}}</td> -->
                                 <td>
                                     <i class="pi pi-check" *ngIf="c.Remake"></i>
                                 </td>
@@ -39,8 +39,8 @@
                                     <i class="pi pi-check" *ngIf="c.Rush"></i>
                                 </td>
                                 <td>{{c.PatientLastName}}, {{c.PatientFirstName}}</td>
-                                <td>{{c.TType}}</td>
-                                <td>{{c.Shade}}</td>
+                                <!-- <td>{{c.TType}}</td> -->
+                                <td>{{c.Tooth}}</td>
                                 <td>{{c.Status}}</td>
                                 <td>
                                     <button pButton type="button" class="p-button-warning" icon="pi pi-pencil" (click)="editCaze(c)"></button>
@@ -145,7 +145,7 @@
                     </div>
                     <div class="p-field">
                         <label for="Tooth" class="p-mr-2">Tooth Number</label>
-                        <input id="Tooth" type="number" pInputText formControlName="Tooth" [style]="{'width': '100%'}">
+                        <p-selectButton [options]="toothNumbers" [multiple]="true" formControlName="Tooth"></p-selectButton>
                     </div>
                 </div>
             </div>
@@ -265,7 +265,7 @@
                     </div>
                     <div class="p-field">
                         <label for="Tooth" class="p-mr-2">Tooth Number</label>
-                        <input id="Tooth" type="number" pInputText formControlName="Tooth" [style]="{'width': '100%'}">
+                        <p-selectButton [options]="toothNumbers" [multiple]="true" formControlName="Tooth"></p-selectButton>
                     </div>
                 </div>
             </div>

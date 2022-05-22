@@ -19,8 +19,12 @@
                         <td>{{wc.DoctorName}}</td>
                         <td>{{wc.ReceiveDate.toDate() | date :'fullDate'}}</td>
                         <td>{{wc.DueDate.toDate() | date :'fullDate'}}</td>
-                        <td>{{wc.Remake}}</td>
-                        <td>{{wc.Rush}}</td>
+                        <td>
+                            <i class="pi pi-check" *ngIf="wc.Remake"></i>
+                        </td>
+                        <td>
+                            <i class="pi pi-check" *ngIf="wc.Rush"></i>
+                        </td>
                         <td>{{wc.PatientLastName}}, {{wc.PatientFirstName}}</td>
                         <td>{{wc.TType}}</td>
                         <td>{{wc.Shade}}</td>
@@ -48,7 +52,9 @@
                         <td>{{rc.DoctorName}}</td>
                         <td>{{rc.ReceiveDate.toDate() | date :'fullDate'}}</td>
                         <td>{{rc.DueDate.toDate() | date :'fullDate'}}</td>
-                        <td>{{rc.Remake}}</td>
+                        <td>
+                            <i class="pi pi-check" *ngIf="rc.Remake"></i>
+                        </td>
                         <td>{{rc.PatientLastName}}, {{rc.PatientFirstName}}</td>
                         <td>{{rc.TType}}</td>
                         <td>{{rc.Shade}}</td>
@@ -80,8 +86,12 @@
                         <td>{{c.DoctorName}}</td>
                         <td>{{c.ReceiveDate.toDate() | date :'fullDate'}}</td>
                         <td>{{c.DueDate.toDate() | date :'fullDate'}}</td>
-                        <td>{{c.Remake}}</td>
-                        <td>{{c.Rush}}</td>
+                        <td>
+                            <i class="pi pi-check" *ngIf="c.Remake"></i>
+                        </td>
+                        <td>
+                            <i class="pi pi-check" *ngIf="c.Rush"></i>
+                        </td>
                         <td>{{c.PatientLastName}}, {{c.PatientFirstName}}</td>
                         <td>{{c.TType}}</td>
                         <td>{{c.Shade}}</td>
